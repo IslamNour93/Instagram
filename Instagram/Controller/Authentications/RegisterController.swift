@@ -7,12 +7,12 @@
 
 import UIKit
 
-class RegisterController: UIViewController {
+class RegisterController: UIViewController, UITextFieldDelegate {
 
     //MARK: - Properties
     
     var viewModel = RegisterViewModel()
-    
+    var profileImage:UIImage?
     let selectProfilePhoto: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
@@ -59,12 +59,14 @@ class RegisterController: UIViewController {
         button.setHeight(50)
         button.titleLabel?.font = .systemFont(ofSize: 16)
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleSignUserIn), for: .touchUpInside)
         return button
     }()
     
     let alreadyHaveAccoutButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Already have an account?", secondPart: "Sign in", fontSize: 16)
+        button.addTarget(self, action: #selector(navigteToLogin), for: .touchUpInside)
         return button
     }()
     //MARK: LifeCycle
@@ -72,6 +74,7 @@ class RegisterController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureDelegates()
         configureNotificationObservers()
         updateForm()
     }
@@ -81,27 +84,43 @@ class RegisterController: UIViewController {
     @objc func textDidChange(sender:UITextField){
         
         if sender == emailTextField{
-            viewModel.email = emailTextField.text
+            viewModel.user?.email = emailTextField.text
         }else if sender == passwordTextField{
-            viewModel.password = passwordTextField.text
+            viewModel.user?.password = passwordTextField.text
         }else if sender == fullNameTextField{
-            viewModel.fullname = fullNameTextField.text
+            viewModel.user?.fullname = fullNameTextField.text
         }else if sender == usernameTextField{
-            viewModel.username = usernameTextField.text
+            viewModel.user?.username = usernameTextField.text
         }
         updateForm()
     }
+    
     @objc func handleProfilePicSelect(){
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.allowsEditing = true
         present(picker, animated: true)
     }
+    
+    @objc func handleSignUserIn(){
+        let user = UserModel(email: emailTextField.text, password: passwordTextField.text, fullname: fullNameTextField.text, username: usernameTextField.text?.lowercased(), profileImage: profileImage)
+   
+        AuthenticationServices.registerUser(withUser: user) { (error) in
+            if let error = error {
+                print("Error in register user: \(error.localizedDescription)")
+            }
+            print("User has been registered Successfully...")
+        }
+    }
+    
+    @objc func navigteToLogin(){
+        navigationController?.popViewController(animated: true)
+    }
+    
     //MARK: - Helpers
     
     private func configureUI(){
         view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = false
         let gradient = CAGradientLayer()
         gradient.colors = [UIColor.systemPurple.cgColor,UIColor.systemPink.cgColor]
         gradient.locations = [0,1]
@@ -120,6 +139,13 @@ class RegisterController: UIViewController {
         
         view.addSubview(alreadyHaveAccoutButton)
         alreadyHaveAccoutButton.anchor(left:view.leftAnchor,bottom: view.safeAreaLayoutGuide.bottomAnchor,right: view.rightAnchor,paddingLeft: 32,paddingBottom: 16,paddingRight: 32)
+    }
+    
+    private func configureDelegates(){
+        emailTextField.delegate = self
+        usernameTextField.delegate = self
+        fullNameTextField.delegate = self
+        passwordTextField.delegate = self
     }
     
 }
@@ -145,6 +171,7 @@ extension RegisterController:UIImagePickerControllerDelegate,UINavigationControl
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedPhoto = info[.editedImage] as? UIImage else{return}
+        profileImage = selectedPhoto
         selectProfilePhoto.layer.cornerRadius = selectProfilePhoto.frame.width / 2
         selectProfilePhoto.layer.masksToBounds = true
         selectProfilePhoto.layer.borderColor = UIColor.black.cgColor

@@ -76,9 +76,9 @@ class LoginController: UIViewController {
     
     @objc func textDidChange(sender:UITextField){
         if sender == emailTextField{
-            viewModel.email = emailTextField.text
+            viewModel.user?.email = emailTextField.text
         }else{
-        viewModel.password = passwordTextField.text
+            viewModel.user?.password = passwordTextField.text
         }
         updateForm()
     }

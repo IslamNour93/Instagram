@@ -7,15 +7,12 @@
 
 import UIKit
 
-struct RegisterViewModel:AuthenticationProtocol{
+class RegisterViewModel:NSObject,AuthenticationProtocol{
     
-    var email:String?
-    var password:String?
-    var fullname:String?
-    var username:String?
+    var user:UserModel?
     
     var formIsValid: Bool{
-        return email?.isEmpty == false && password?.isEmpty == false && fullname?.isEmpty == false && username?.isEmpty == false
+        return user?.email?.isEmpty == false && user?.password?.isEmpty == false && user?.fullname?.isEmpty == false && user?.username?.isEmpty == false
     }
     
     var buttonBackgroundColor: UIColor{
@@ -26,4 +23,8 @@ struct RegisterViewModel:AuthenticationProtocol{
         return formIsValid ? .white : UIColor(white: 1, alpha: 0.67)
     }
     
+    override init() {
+        
+        user = UserModel()
+    }
 }

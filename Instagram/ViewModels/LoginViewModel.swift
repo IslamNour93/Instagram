@@ -11,17 +11,20 @@ protocol AuthenticationProtocol{
     var formIsValid:Bool{get}
     var buttonBackgroundColor:UIColor{get}
     var buttonTitleColor:UIColor{get}
-    
 }
-struct LoginViewModel{
-    var email:String?
-    var password:String?
+
+class LoginViewModel:NSObject{
+    var user: UserModel?
+    
+    override init() {
+        user = UserModel()
+    }
 }
 
 extension LoginViewModel:AuthenticationProtocol{
     
     var formIsValid:Bool{
-        return email?.isEmpty == false && password?.isEmpty == false
+        return user?.email?.isEmpty == false && user?.password?.isEmpty == false
     }
     
     var buttonBackgroundColor:UIColor{
