@@ -14,11 +14,8 @@ class MainTabController: UITabBarController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureViewControllers()
-        
     }
-    
     //MARK: - Helpers
     
     private func configureViewControllers(){

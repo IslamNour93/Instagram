@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 protocol AuthenticationProtocol{
     var formIsValid:Bool{get}
@@ -18,6 +19,35 @@ class LoginViewModel:NSObject{
     
     override init() {
         user = UserModel()
+    }
+    
+    func signIn(withEmail email:String,password:String,onCompletion:@escaping(AuthDataResult?,Error?)->()){
+        AuthenticationServices.logUserIn(email: email, password: password) { result, error in
+            
+            if let error = error {
+                onCompletion(nil,error)
+                print("Couldn't log User in..:\(error.localizedDescription)")
+            }
+            onCompletion(result,nil)
+        }
+    }
+    func checkIfUserIsLoggedIn(completion:@escaping ()->()){
+        if Auth.auth().currentUser == nil{
+            DispatchQueue.main.async {
+                completion()
+            }
+        }
+    }
+    
+    func signOut(completion:@escaping()->()){
+        do{
+        try Auth.auth().signOut()
+            DispatchQueue.main.async {
+                completion()
+            }
+        }catch{
+            print("Couldn't sign out..")
+        }
     }
 }
 
@@ -34,4 +64,5 @@ extension LoginViewModel:AuthenticationProtocol{
     var buttonTitleColor:UIColor{
         return formIsValid ? .white : UIColor(white: 1, alpha: 0.67)
     }
+    
 }

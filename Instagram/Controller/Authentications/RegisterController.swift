@@ -11,7 +11,8 @@ class RegisterController: UIViewController, UITextFieldDelegate {
 
     //MARK: - Properties
     
-    var viewModel = RegisterViewModel()
+    var registerViewModel = RegisterViewModel()
+    var loginViewModel = LoginViewModel()
     var profileImage:UIImage?
     let selectProfilePhoto: UIButton = {
         let button = UIButton(type: .system)
@@ -84,13 +85,13 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     @objc func textDidChange(sender:UITextField){
         
         if sender == emailTextField{
-            viewModel.user?.email = emailTextField.text
+            registerViewModel.user?.email = emailTextField.text
         }else if sender == passwordTextField{
-            viewModel.user?.password = passwordTextField.text
+            registerViewModel.user?.password = passwordTextField.text
         }else if sender == fullNameTextField{
-            viewModel.user?.fullname = fullNameTextField.text
+            registerViewModel.user?.fullname = fullNameTextField.text
         }else if sender == usernameTextField{
-            viewModel.user?.username = usernameTextField.text
+            registerViewModel.user?.username = usernameTextField.text
         }
         updateForm()
     }
@@ -104,12 +105,17 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     
     @objc func handleSignUserIn(){
         let user = UserModel(email: emailTextField.text, password: passwordTextField.text, fullname: fullNameTextField.text, username: usernameTextField.text?.lowercased(), profileImage: profileImage)
-   
-        AuthenticationServices.registerUser(withUser: user) { (error) in
-            if let error = error {
-                print("Error in register user: \(error.localizedDescription)")
+        
+        registerViewModel.signup(user: user) {
+            print("Successfully registered a new user")
+            guard let email = user.email, let password = user.password else {return}
+            self.loginViewModel.signIn(withEmail: email, password: password) { result, error in
+                DispatchQueue.main.async {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
-            print("User has been registered Successfully...")
+        } onFailure: { error in
+            print(error)
         }
     }
     
@@ -161,9 +167,9 @@ extension RegisterController:FormProtocol{
     }
     
     func updateForm() {
-        signupButton.isEnabled = viewModel.formIsValid
-        signupButton.setTitleColor(viewModel.buttonTitleColor, for: .normal)
-        signupButton.backgroundColor = viewModel.buttonBackgroundColor
+        signupButton.isEnabled = registerViewModel.formIsValid
+        signupButton.setTitleColor(registerViewModel.buttonTitleColor, for: .normal)
+        signupButton.backgroundColor = registerViewModel.buttonBackgroundColor
     }
 }
 
@@ -172,6 +178,9 @@ extension RegisterController:UIImagePickerControllerDelegate,UINavigationControl
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedPhoto = info[.editedImage] as? UIImage else{return}
         profileImage = selectedPhoto
+        if  profileImage == nil {
+            profileImage = UIImage(named: "person")
+        }
         selectProfilePhoto.layer.cornerRadius = selectProfilePhoto.frame.width / 2
         selectProfilePhoto.layer.masksToBounds = true
         selectProfilePhoto.layer.borderColor = UIColor.black.cgColor

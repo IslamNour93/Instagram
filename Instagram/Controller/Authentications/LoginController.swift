@@ -10,7 +10,7 @@ import UIKit
 class LoginController: UIViewController {
 
     //MARK: - Properties
-    var viewModel = LoginViewModel()
+    var loginViewModel = LoginViewModel()
     
     let logoImage: UIImageView = {
        let iv = UIImageView()
@@ -42,6 +42,7 @@ class LoginController: UIViewController {
         button.setHeight(50)
         button.titleLabel?.font = .systemFont(ofSize: 16)
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
     
@@ -76,11 +77,27 @@ class LoginController: UIViewController {
     
     @objc func textDidChange(sender:UITextField){
         if sender == emailTextField{
-            viewModel.user?.email = emailTextField.text
+            loginViewModel.user?.email = emailTextField.text
         }else{
-            viewModel.user?.password = passwordTextField.text
+            loginViewModel.user?.password = passwordTextField.text
         }
         updateForm()
+    }
+    
+    @objc func handleLogin(){
+        guard let email = emailTextField.text, let password = passwordTextField.text else {return}
+        
+        loginViewModel.signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("Debug: Error in log user in..:\(error.localizedDescription)")
+                self.showMessage(withTitle: "Invalid password or Email", message: "Please check your password & email and try again.")
+                
+            }
+            if let result = result {
+                self.dismiss(animated: true, completion: nil)
+            }
+            
+        }
     }
     
     //MARK: - Helpers
@@ -120,8 +137,8 @@ extension LoginController:FormProtocol{
     }
     
     func updateForm() {
-        loginButton.isEnabled = viewModel.formIsValid
-        loginButton.setTitleColor(viewModel.buttonTitleColor, for: .normal)
-        loginButton.backgroundColor = viewModel.buttonBackgroundColor
+        loginButton.isEnabled = loginViewModel.formIsValid
+        loginButton.setTitleColor(loginViewModel.buttonTitleColor, for: .normal)
+        loginButton.backgroundColor = loginViewModel.buttonBackgroundColor
     }
 }

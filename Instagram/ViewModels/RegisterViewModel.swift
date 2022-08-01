@@ -10,7 +10,6 @@ import UIKit
 class RegisterViewModel:NSObject,AuthenticationProtocol{
     
     var user:UserModel?
-    
     var formIsValid: Bool{
         return user?.email?.isEmpty == false && user?.password?.isEmpty == false && user?.fullname?.isEmpty == false && user?.username?.isEmpty == false
     }
@@ -26,5 +25,19 @@ class RegisterViewModel:NSObject,AuthenticationProtocol{
     override init() {
         
         user = UserModel()
+    }
+    
+    func signup(user:UserModel,onSucces:@escaping ()->(),onFailure: @escaping(String)->()){
+        AuthenticationServices.registerUser(withUser: user) { data in
+            DispatchQueue.main.async {
+                onSucces()
+            }
+            
+        } onFailure: { error in
+            guard let error = error else{return}
+            print(error.localizedDescription)
+            onFailure("Failed to register a user")
+        }
+
     }
 }
