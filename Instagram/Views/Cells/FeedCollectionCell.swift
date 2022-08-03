@@ -11,6 +11,8 @@ class FeedCollectionCell: UICollectionViewCell {
     
     //MARK: - Properties
     
+    static let identifier = "feedCell"
+    
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -89,7 +91,7 @@ class FeedCollectionCell: UICollectionViewCell {
     }()
     
     
-    
+    //MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
             
@@ -119,6 +121,7 @@ class FeedCollectionCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+
     
     //MARK: - Actions
     

@@ -10,8 +10,8 @@ import Firebase
 
 class AuthenticationServices{
     
-    static func registerUser(withUser user:UserModel,onSuccess:@escaping(Dictionary<String,Any>)->(),onFailure: @escaping (Error?)->()){
-        guard let image = user.profileImage, let email = user.email, let password = user.password , let fullname = user.fullname, let username = user.username else {return}
+    static func registerUser(withCredential credential:Credentials,onSuccess:@escaping(Dictionary<String,Any>)->(),onFailure: @escaping (Error?)->()){
+        guard let image = credential.profileImage, let email = credential.email, let password = credential.password , let fullname = credential.fullname, let username = credential.username else {return}
         ImageUploader.uploadProfileImage(profileImage: image) { imageUrl in
             Auth.auth().createUser(withEmail: email, password: password) { result, error in
                 if let error = error{
@@ -20,12 +20,12 @@ class AuthenticationServices{
                 }
                 guard let uid = result?.user.uid else {return}
                 
-                let data: [String:Any] = ["Email":email,
-                                          "Fullname":fullname,
-                                          "Username":username,
-                                          "Uid": uid,
-                                          "imageUrl":imageUrl]
-                Firestore.firestore().collection("users").document(uid).setData(data,completion: onFailure)
+                let data: [String:Any] = ["email":email,
+                                          "fullname":fullname,
+                                          "username":username,
+                                          "uid": uid,
+                                          "profileImageUrl":imageUrl]
+                Constants.collection_users.document(uid).setData(data,completion: onFailure)
                 onSuccess(data)
             }
         }

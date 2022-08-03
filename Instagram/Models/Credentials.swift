@@ -7,7 +7,7 @@
  
 import UIKit
 
-struct UserModel{
+struct Credentials{
     
     var email:String?
     var password:String?

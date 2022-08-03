@@ -7,20 +7,16 @@
 
 import UIKit
 
-private let identifier = "cell"
+
 
 class FeedController: UICollectionViewController{
     
     //MARK: - Properties
     var loginViewModel = LoginViewModel()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        checkIfUserIslogged()
         configureUI()
     }
-    
-   
     
     //MARK: - Actions
     
@@ -33,19 +29,22 @@ class FeedController: UICollectionViewController{
     //MARK: - Helpers
     
     private func configureUI(){
-        collectionView.register(FeedCollectionCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(FeedCollectionCell.self, forCellWithReuseIdentifier: FeedCollectionCell.identifier)
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
     }
     
     private func checkIfUserIslogged(){
         loginViewModel.checkIfUserIsLoggedIn {
             let vc = LoginController()
+            vc.delegate = self.tabBarController as? MainTabController
             let nav = UINavigationController(rootViewController: vc)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
         }
     }
+   
 }
+//MARK: - CollectionView DataSource
 
 extension FeedController{
     
@@ -54,11 +53,12 @@ extension FeedController{
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionCell.identifier, for: indexPath) as! FeedCollectionCell
 
         return cell
     }
 }
+//MARK: - CollectionView DelegateFlowLayout
 
 extension FeedController: UICollectionViewDelegateFlowLayout{
     

@@ -9,9 +9,9 @@ import UIKit
 
 class RegisterViewModel:NSObject,AuthenticationProtocol{
     
-    var user:UserModel?
+    var credential:Credentials?
     var formIsValid: Bool{
-        return user?.email?.isEmpty == false && user?.password?.isEmpty == false && user?.fullname?.isEmpty == false && user?.username?.isEmpty == false
+        return credential?.email?.isEmpty == false && credential?.password?.isEmpty == false && credential?.fullname?.isEmpty == false && credential?.username?.isEmpty == false
     }
     
     var buttonBackgroundColor: UIColor{
@@ -24,11 +24,11 @@ class RegisterViewModel:NSObject,AuthenticationProtocol{
     
     override init() {
         
-        user = UserModel()
+        credential = Credentials()
     }
     
-    func signup(user:UserModel,onSucces:@escaping ()->(),onFailure: @escaping(String)->()){
-        AuthenticationServices.registerUser(withUser: user) { data in
+    func signup(credential:Credentials,onSucces:@escaping ()->(),onFailure: @escaping(String)->()){
+        AuthenticationServices.registerUser(withCredential: credential) { data in
             DispatchQueue.main.async {
                 onSucces()
             }

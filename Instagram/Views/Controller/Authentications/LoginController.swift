@@ -11,7 +11,7 @@ class LoginController: UIViewController {
 
     //MARK: - Properties
     var loginViewModel = LoginViewModel()
-    
+    var delegate: AuthenticationDelegate?
     let logoImage: UIImageView = {
        let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -72,6 +72,7 @@ class LoginController: UIViewController {
     
    @objc func navigateToRegisterScreen(){
         let regView = RegisterController()
+        regView.delegate = delegate
         navigationController?.pushViewController(regView, animated: true)
     }
     
@@ -91,12 +92,10 @@ class LoginController: UIViewController {
             if let error = error {
                 print("Debug: Error in log user in..:\(error.localizedDescription)")
                 self.showMessage(withTitle: "Invalid password or Email", message: "Please check your password & email and try again.")
-                
             }
             if let result = result {
-                self.dismiss(animated: true, completion: nil)
+                self.delegate?.authenticationDidComplete()
             }
-            
         }
     }
     
@@ -142,3 +141,4 @@ extension LoginController:FormProtocol{
         loginButton.backgroundColor = loginViewModel.buttonBackgroundColor
     }
 }
+

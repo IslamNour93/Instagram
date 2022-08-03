@@ -15,10 +15,10 @@ protocol AuthenticationProtocol{
 }
 
 class LoginViewModel:NSObject{
-    var user: UserModel?
+    var user: Credentials?
     
     override init() {
-        user = UserModel()
+        user = Credentials()
     }
     
     func signIn(withEmail email:String,password:String,onCompletion:@escaping(AuthDataResult?,Error?)->()){

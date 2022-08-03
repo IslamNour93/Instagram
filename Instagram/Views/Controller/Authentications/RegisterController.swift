@@ -14,6 +14,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     var registerViewModel = RegisterViewModel()
     var loginViewModel = LoginViewModel()
     var profileImage:UIImage?
+    weak var delegate: AuthenticationDelegate?
     let selectProfilePhoto: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
@@ -85,13 +86,13 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     @objc func textDidChange(sender:UITextField){
         
         if sender == emailTextField{
-            registerViewModel.user?.email = emailTextField.text
+            registerViewModel.credential?.email = emailTextField.text
         }else if sender == passwordTextField{
-            registerViewModel.user?.password = passwordTextField.text
+            registerViewModel.credential?.password = passwordTextField.text
         }else if sender == fullNameTextField{
-            registerViewModel.user?.fullname = fullNameTextField.text
+            registerViewModel.credential?.fullname = fullNameTextField.text
         }else if sender == usernameTextField{
-            registerViewModel.user?.username = usernameTextField.text
+            registerViewModel.credential?.username = usernameTextField.text
         }
         updateForm()
     }
@@ -104,14 +105,14 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     }
     
     @objc func handleSignUserIn(){
-        let user = UserModel(email: emailTextField.text, password: passwordTextField.text, fullname: fullNameTextField.text, username: usernameTextField.text?.lowercased(), profileImage: profileImage)
+        let user = Credentials(email: emailTextField.text, password: passwordTextField.text, fullname: fullNameTextField.text, username: usernameTextField.text?.lowercased(), profileImage: profileImage)
         
-        registerViewModel.signup(user: user) {
+        registerViewModel.signup(credential: user) {
             print("Successfully registered a new user")
             guard let email = user.email, let password = user.password else {return}
             self.loginViewModel.signIn(withEmail: email, password: password) { result, error in
                 DispatchQueue.main.async {
-                    self.dismiss(animated: true, completion: nil)
+                    self.delegate?.authenticationDidComplete()
                 }
             }
         } onFailure: { error in
