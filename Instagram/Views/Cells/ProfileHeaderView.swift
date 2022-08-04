@@ -22,12 +22,11 @@ class ProfileHeaderView: UICollectionReusableView {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.isUserInteractionEnabled = true
         imageView.layer.cornerRadius = 80/2
         return imageView
     }()
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .label
         label.font = UIFont.boldSystemFont(ofSize: 15)

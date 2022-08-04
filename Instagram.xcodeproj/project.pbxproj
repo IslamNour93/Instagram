@@ -35,6 +35,8 @@
 		394BA2D728908F8B0056AA96 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BA2D628908F8B0056AA96 /* Extensions.swift */; };
 		394BA2D92890901E0056AA96 /* FeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BA2D82890901E0056AA96 /* FeedCollectionCell.swift */; };
 		39706E6A289B1AA40092D6B6 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39706E69289B1AA40092D6B6 /* SearchCell.swift */; };
+		39706E6D289B3C860092D6B6 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39706E6C289B3C860092D6B6 /* SearchViewModel.swift */; };
+		39706E6F289B66BE0092D6B6 /* SearchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */; };
 		39DA2A1A289845EC004A432B /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DA2A19289845EC004A432B /* ProfileHeaderView.swift */; };
 		39DA2A1C2898498E004A432B /* ProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39DA2A1B2898498E004A432B /* ProfileCell.swift */; };
 		39E47CD628930F8D00BEC994 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E47CD528930F8D00BEC994 /* LoginController.swift */; };
@@ -69,6 +71,8 @@
 		394BA2D628908F8B0056AA96 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		394BA2D82890901E0056AA96 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
 		39706E69289B1AA40092D6B6 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
+		39706E6C289B3C860092D6B6 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModel.swift; sourceTree = "<group>"; };
 		39DA2A19289845EC004A432B /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		39DA2A1B2898498E004A432B /* ProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCell.swift; sourceTree = "<group>"; };
 		39E47CD528930F8D00BEC994 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
@@ -199,6 +203,8 @@
 				39228ED628946D1000D676FC /* RegisterViewModel.swift */,
 				39140E5F2899C89B00B27073 /* MainTabbarViewModel.swift */,
 				3910A9D9289A37ED007E3EED /* ProfileHeaderViewModel.swift */,
+				39706E6C289B3C860092D6B6 /* SearchViewModel.swift */,
+				39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -336,6 +342,7 @@
 				39FE9703288F3E2500B98468 /* NotificationsController.swift in Sources */,
 				393A80FA28962D85001FE0A0 /* ImageUploader.swift in Sources */,
 				39140E5E2899C3B500B27073 /* Constants.swift in Sources */,
+				39706E6F289B66BE0092D6B6 /* SearchCellViewModel.swift in Sources */,
 				39FE96FF288F3C4700B98468 /* SearchController.swift in Sources */,
 				39FE9701288F3D7300B98468 /* ImageSelectorController.swift in Sources */,
 				39140E602899C89B00B27073 /* MainTabbarViewModel.swift in Sources */,
@@ -350,6 +357,7 @@
 				393A80F52896121F001FE0A0 /* Credentials.swift in Sources */,
 				393A80F82896293F001FE0A0 /* AuthenticationServices.swift in Sources */,
 				39228ED32894151100D676FC /* RegisterController.swift in Sources */,
+				39706E6D289B3C860092D6B6 /* SearchViewModel.swift in Sources */,
 				39228EDA2894700000D676FC /* FormProtocol.swift in Sources */,
 				394BA2D92890901E0056AA96 /* FeedCollectionCell.swift in Sources */,
 				39FE96F7288F3A9B00B98468 /* MainTabController.swift in Sources */,

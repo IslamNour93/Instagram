@@ -12,7 +12,7 @@ class MainTabbarViewModel{
     
     
     func getUser(completion:@escaping(User?,Error?)->()){
-        UserServices.shared.fetchUsers { (user,error) in
+        UserServices.shared.fetchUser { (user,error) in
             if let error = error {
                 completion(nil,error)
             }else{
