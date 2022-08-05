@@ -14,7 +14,7 @@ struct User{
     var username:String
     var profileImageUrl:String
     var uid:String
-    
+    var userStats: UserStats
     var isFollowed = false
     
     var isCurrentUser:Bool{
@@ -27,5 +27,12 @@ struct User{
         self.username = dictionary["username"] as? String ?? ""
         self.profileImageUrl = dictionary["profileImageUrl"] as? String ?? ""
         self.uid = dictionary["uid"] as? String ?? ""
+        userStats = UserStats(followers: 0, following: 0)
     }
+}
+
+struct UserStats{
+    var followers:Int
+    var following:Int
+//    var posts:Int
 }

@@ -21,6 +21,7 @@ class ProfileHeaderView: UICollectionReusableView {
     }
     
     weak var delegate: ProfileHeaderProtocol?
+    
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -45,11 +46,12 @@ class ProfileHeaderView: UICollectionReusableView {
         button.layer.borderWidth = 0.5
         button.layer.cornerRadius = 3
         button.setHeight(30)
+        button.setTitle("loading", for: .normal)
         button.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
         return button
     }()
     
-    private lazy var posts:UILabel = {
+    private lazy var postsLabel:UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -57,20 +59,16 @@ class ProfileHeaderView: UICollectionReusableView {
         label.attributedText = attributeStatText(value: 8, label: "Posts")
         return label
     }()
-    private lazy var followers:UILabel = {
+    private lazy var followersLabel:UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
-        
-        label.attributedText = attributeStatText(value: 1, label: "Followers")
         return label
     }()
-    private lazy var following:UILabel = {
+    private lazy var followingLabel:UILabel = {
         let label = UILabel()
         label.textAlignment = .center
         label.numberOfLines = 0
-        
-        label.attributedText = attributeStatText(value: 1, label: "Following")
         return label
     }()
     private let topSeperatorView:UIView = {
@@ -118,7 +116,7 @@ class ProfileHeaderView: UICollectionReusableView {
         addSubview(bottomSeperatorView)
         bottomSeperatorView.anchor(left:leftAnchor,bottom:bottomAnchor,right: rightAnchor,height: 0.5)
         
-        let stackView = UIStackView(arrangedSubviews: [posts,followers,following])
+        let stackView = UIStackView(arrangedSubviews: [postsLabel,followersLabel,followingLabel])
         stackView.distribution = .fillEqually
         addSubview(stackView)
         stackView.centerY(inView: profileImageView)
@@ -135,12 +133,6 @@ class ProfileHeaderView: UICollectionReusableView {
     }
     
     //MARK: - Helpers
-   private func attributeStatText(value:Int,label:String)->NSAttributedString{
-        let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
-        attributedText.append(NSAttributedString(string: label, attributes: [.font:UIFont.systemFont(ofSize: 14),.foregroundColor:UIColor.lightGray]))
-        
-        return attributedText
-    }
     
     private func configureUI(){
         guard let viewModel = viewModel else {
@@ -151,7 +143,18 @@ class ProfileHeaderView: UICollectionReusableView {
         editProfile.setTitle(viewModel.followButtonTitle, for: .normal)
         editProfile.backgroundColor = viewModel.followButtonBackGround
         editProfile.setTitleColor(viewModel.buttonFontColor, for: .normal)
+        followersLabel.attributedText = viewModel.numbersOfFollowers
+        followingLabel.attributedText = viewModel.numbersOfFollowering
+        
     }
+    
+    private func attributeStatText(value:Int,label:String)->NSAttributedString{
+         let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
+         attributedText.append(NSAttributedString(string: label, attributes: [.font:UIFont.systemFont(ofSize: 14),.foregroundColor:UIColor.lightGray]))
+         
+         return attributedText
+     }
+    
     
     //MARK: - Actions
     

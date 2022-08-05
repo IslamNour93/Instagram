@@ -8,6 +8,7 @@
 import Foundation
 import Firebase
 
+
 class UserServices{
     
     static let shared = UserServices()
@@ -47,9 +48,9 @@ class UserServices{
         
         guard let currentUid = Auth.auth().currentUser?.uid else {return}
         
-        Constants.collection_followers.document(currentUid).collection("user-followers").document(uid).setData([:]) { error in
+        Constants.collection_following.document(currentUid).collection("user-following").document(uid).setData([:]) { error in
     
-            Constants.collection_following.document(uid).collection("user-following").document(currentUid).setData([:],completion: completion)
+            Constants.collection_followers.document(uid).collection("user-followers").document(currentUid).setData([:],completion: completion)
         }
     }
     
@@ -61,4 +62,29 @@ class UserServices{
             Constants.collection_followers.document(uid).collection("user-followers").document(currentUid).delete(completion: completion)
         }
     }
+    
+    func checkIfUserIsfollowed(uid:String,completion:@escaping (Bool)->()){
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        Constants.collection_following.document(currentUid).collection("user-following").document(uid).getDocument { snapshot, error in
+            
+            guard let isFollowed = snapshot?.exists else {return}
+            
+            completion(isFollowed)
+        }
+    }
+    
+    func checkUserStats(uid:String,completion:@escaping(UserStats)->()){
+        
+        Constants.collection_followers.document(uid).collection("user-followers").getDocuments { snapshot, error in
+            guard let followers = snapshot?.documents.count else {return}
+                
+            Constants.collection_following.document(uid).collection("user-following").getDocuments { followingSnapshot, error in
+                guard let following = followingSnapshot?.documents.count else{return}
+                
+                completion(UserStats(followers: followers, following: following))
+                }
+            }
+        }
 }
+
+

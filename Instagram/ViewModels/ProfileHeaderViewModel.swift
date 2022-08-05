@@ -39,6 +39,14 @@ class ProfileHeaderViewModel{
         return user.isCurrentUser ? .black : .white
     }
     
+    var numbersOfFollowers:NSAttributedString{
+        return attributeStatText(value: user.userStats.followers, label: "followers")
+    }
+    
+    var numbersOfFollowering:NSAttributedString{
+        return attributeStatText(value: user.userStats.following, label: "following")
+    }
+    
     init(user:User){
         self.user = user
     }
@@ -56,4 +64,25 @@ class ProfileHeaderViewModel{
         }
     }
     
+    func checkIfUserIsFollowed(completion:@escaping(Bool)->()){
+        UserServices.shared.checkIfUserIsfollowed(uid: user.uid) { isFollowed in
+
+            completion(isFollowed)
+        }
+    }
+    
+    func getUserStats(completion:@escaping(UserStats)->()){
+        UserServices.shared.checkUserStats(uid: user.uid) { userStats in
+//            guard let self = self else {return}
+//            self.user.userStats = userStats
+            completion(userStats)
+        }
+    }
+    
+    private func attributeStatText(value:Int,label:String)->NSAttributedString{
+         let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
+         attributedText.append(NSAttributedString(string: label, attributes: [.font:UIFont.systemFont(ofSize: 14),.foregroundColor:UIColor.lightGray]))
+         
+         return attributedText
+     }
 }

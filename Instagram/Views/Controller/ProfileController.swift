@@ -15,20 +15,43 @@ class ProfileController: UICollectionViewController{
         }
     }
     
+    var headerViewModel:ProfileHeaderViewModel!
+    
     //MARK: - LiveCycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         setupCollectionView()
+        getUserStats()
+        checkIfUserIsFollowed()
     }
     init(user:User){
         self.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        headerViewModel = ProfileHeaderViewModel(user: self.user)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func getUserStats(){
+        
+        headerViewModel.getUserStats { [weak self] userStats in
+            guard let self = self else {return}
+            self.user.userStats = userStats
+            print("followers:\(self.user.userStats.following),following:\(self.user.userStats.following)")
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func checkIfUserIsFollowed(){
+        headerViewModel.checkIfUserIsFollowed { [weak self] isFollowed in
+            guard let self = self else {return}
+            self.user.isFollowed = isFollowed
+            self.collectionView.reloadData()
+        }
     }
 //MARK: - Helpers
     
