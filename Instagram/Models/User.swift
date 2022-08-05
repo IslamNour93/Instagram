@@ -6,12 +6,20 @@
 //
 
 import Foundation
+import Firebase
+
 struct User{
     var email:String
     var fullname:String
     var username:String
     var profileImageUrl:String
     var uid:String
+    
+    var isFollowed = false
+    
+    var isCurrentUser:Bool{
+        return Auth.auth().currentUser?.uid == uid
+    }
     
     init(dictionary:[String:Any]){
         self.email = dictionary["email"] as? String ?? ""

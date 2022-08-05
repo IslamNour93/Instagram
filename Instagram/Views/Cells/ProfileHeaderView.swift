@@ -13,11 +13,14 @@ class ProfileHeaderView: UICollectionReusableView {
     //MARK: - Properties
     
     static let identifier = "profileHeaderView"
+    
     var viewModel:ProfileHeaderViewModel?{
         didSet{
             configureUI()
         }
     }
+    
+    weak var delegate: ProfileHeaderProtocol?
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -37,13 +40,12 @@ class ProfileHeaderView: UICollectionReusableView {
     private lazy var editProfile:UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemBlue
-        button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.layer.borderColor = UIColor.lightGray.cgColor
         button.layer.borderWidth = 0.5
         button.layer.cornerRadius = 3
-        button.setTitleColor(.white, for: .normal)
         button.setHeight(30)
+        button.addTarget(self, action: #selector(didTapFollowButton), for: .touchUpInside)
         return button
     }()
     
@@ -131,6 +133,7 @@ class ProfileHeaderView: UICollectionReusableView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     //MARK: - Helpers
    private func attributeStatText(value:Int,label:String)->NSAttributedString{
         let attributedText = NSMutableAttributedString(string: "\(value)\n", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
@@ -145,6 +148,17 @@ class ProfileHeaderView: UICollectionReusableView {
         }
         nameLabel.text = viewModel.fullname
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        editProfile.setTitle(viewModel.followButtonTitle, for: .normal)
+        editProfile.backgroundColor = viewModel.followButtonBackGround
+        editProfile.setTitleColor(viewModel.buttonFontColor, for: .normal)
     }
     
+    //MARK: - Actions
+    
+    @objc func didTapFollowButton(){
+        guard let viewModel = viewModel else {
+            return
+        }
+        delegate?.header(self, didTapActionButtonFor: viewModel.user)
+    }
 }

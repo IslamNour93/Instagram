@@ -11,4 +11,8 @@ import Firebase
 class Constants {
     
     static let collection_users = Firestore.firestore().collection("users")
+    static let collection_followers = Firestore.firestore().collection("followers")
+    static let collection_following = Firestore.firestore().collection("following")
 }
+
+    

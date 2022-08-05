@@ -32,6 +32,7 @@
 		393A80F52896121F001FE0A0 /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A80F42896121F001FE0A0 /* Credentials.swift */; };
 		393A80F82896293F001FE0A0 /* AuthenticationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A80F72896293F001FE0A0 /* AuthenticationServices.swift */; };
 		393A80FA28962D85001FE0A0 /* ImageUploader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 393A80F928962D85001FE0A0 /* ImageUploader.swift */; };
+		3948DF7D289CCE02007D5595 /* ProfileHeaderProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3948DF7C289CCE02007D5595 /* ProfileHeaderProtocol.swift */; };
 		394BA2D728908F8B0056AA96 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BA2D628908F8B0056AA96 /* Extensions.swift */; };
 		394BA2D92890901E0056AA96 /* FeedCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 394BA2D82890901E0056AA96 /* FeedCollectionCell.swift */; };
 		39706E6A289B1AA40092D6B6 /* SearchCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39706E69289B1AA40092D6B6 /* SearchCell.swift */; };
@@ -68,6 +69,7 @@
 		393A80F42896121F001FE0A0 /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		393A80F72896293F001FE0A0 /* AuthenticationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationServices.swift; sourceTree = "<group>"; };
 		393A80F928962D85001FE0A0 /* ImageUploader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploader.swift; sourceTree = "<group>"; };
+		3948DF7C289CCE02007D5595 /* ProfileHeaderProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderProtocol.swift; sourceTree = "<group>"; };
 		394BA2D628908F8B0056AA96 /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		394BA2D82890901E0056AA96 /* FeedCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCollectionCell.swift; sourceTree = "<group>"; };
 		39706E69289B1AA40092D6B6 /* SearchCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCell.swift; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				39228ED92894700000D676FC /* FormProtocol.swift */,
 				3910A9D7289A22B6007E3EED /* AuthenticationDelegateProtocol.swift */,
+				3948DF7C289CCE02007D5595 /* ProfileHeaderProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3948DF7D289CCE02007D5595 /* ProfileHeaderProtocol.swift in Sources */,
 				39E47CD628930F8D00BEC994 /* LoginController.swift in Sources */,
 				3910A9D8289A22B6007E3EED /* AuthenticationDelegateProtocol.swift in Sources */,
 				39FE96FD288F3C1C00B98468 /* ProfileController.swift in Sources */,
