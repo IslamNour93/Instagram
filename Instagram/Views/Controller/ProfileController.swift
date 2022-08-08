@@ -16,7 +16,11 @@ class ProfileController: UICollectionViewController{
         }
     }
     
+    var posts = [Post]()
+    
     var headerViewModel:ProfileHeaderViewModel!
+    
+    var postViewModel = UploadPostViewModel()
     
     //MARK: - LiveCycle
     
@@ -26,7 +30,10 @@ class ProfileController: UICollectionViewController{
         setupCollectionView()
         getUserStats()
         checkIfUserIsFollowed()
+        getPostsForUser()
     }
+    
+    
     init(user:User){
         self.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
@@ -36,6 +43,8 @@ class ProfileController: UICollectionViewController{
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    //MARK: - Getting userStats Data & Posts
     
     private func getUserStats(){
         
@@ -53,6 +62,26 @@ class ProfileController: UICollectionViewController{
             self.collectionView.reloadData()
         }
     }
+    
+    private func getPostsForUser(){
+        postViewModel.getPostForUser(uid: user.uid) { [weak self] posts, error in
+            
+            guard let self = self else {return}
+            
+            if let error = error {
+                print("DEBUG: Error in fetcing posts..:\(error.localizedDescription)")
+                return
+            }
+            
+            if let posts = posts {
+                self.posts = posts
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
 //MARK: - Helpers
     
     private func configureUI(){
@@ -74,7 +103,7 @@ class ProfileController: UICollectionViewController{
 extension ProfileController{
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
-        cell.backgroundColor = .gray
+        cell.viewModel = PostViewModel(post: posts[indexPath.row])
         return cell
     }
     
@@ -86,7 +115,7 @@ extension ProfileController{
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        8
+        posts.count
     }
 }
 

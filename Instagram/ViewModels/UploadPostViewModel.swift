@@ -31,4 +31,16 @@ class UploadPostViewModel{
             }
         }
     }
+    
+    func getPostForUser(uid:String,completion:@escaping([Post]?,Error?)->()){
+        PostService.fetchPostForUser(uid: uid) { posts, error in
+            if let error = error {
+                completion(nil,error)
+                return
+            }
+            if let posts = posts {
+                completion(posts,nil)
+            }
+        }
+    }
 }

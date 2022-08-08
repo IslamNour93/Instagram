@@ -40,4 +40,21 @@ class PostService{
             }
         }
     }
+    
+    static func fetchPostForUser(uid:String,completion:@escaping([Post]?,Error?)->()){
+        let query = Constants.collection_posts.whereField("ownerUid", isEqualTo: uid)
+        
+        query.getDocuments { snapshot, error in
+                guard let snapshot = snapshot else {
+                    return
+                }
+
+                let posts = snapshot.documents.map({Post(postId: $0.documentID, dictionary: $0.data())})
+                completion(posts,nil)
+                
+                if let error = error {
+                    completion(nil,error)
+                }
+        }
+    }
 }
