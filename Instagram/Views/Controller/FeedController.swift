@@ -12,10 +12,17 @@ import UIKit
 class FeedController: UICollectionViewController{
     
     //MARK: - Properties
+    
     var loginViewModel = LoginViewModel()
+    
+    var viewModel = UploadPostViewModel()
+    var posts = [Post]()
+    
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        getPostsData()
     }
     
     //MARK: - Actions
@@ -42,19 +49,34 @@ class FeedController: UICollectionViewController{
             self.present(nav, animated: true, completion: nil)
         }
     }
-   
+    
+    private func getPostsData(){
+        viewModel.getAllPosts { posts, error in
+            if let error = error {
+                print("DEBUG: Error in fetcing posts..:\(error.localizedDescription)")
+                return
+            }
+            
+            if let posts = posts {
+                self.posts = posts
+            }
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 }
 //MARK: - CollectionView DataSource
 
 extension FeedController{
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return posts.count
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionCell.identifier, for: indexPath) as! FeedCollectionCell
-
+        cell.viewModel = PostViewModel(post: posts[indexPath.row])
         return cell
     }
 }

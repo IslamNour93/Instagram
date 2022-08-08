@@ -10,6 +10,7 @@ import UIKit
 class RegisterViewModel:NSObject,AuthenticationProtocol{
     
     var credential:Credentials?
+    
     var formIsValid: Bool{
         return credential?.email?.isEmpty == false && credential?.password?.isEmpty == false && credential?.fullname?.isEmpty == false && credential?.username?.isEmpty == false
     }

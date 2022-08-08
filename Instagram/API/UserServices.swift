@@ -9,12 +9,12 @@ import Foundation
 import Firebase
 
 
+typealias firebaseErrorCompletion = (Error?)->Void
+
 class UserServices{
     
     static let shared = UserServices()
     
-    typealias firebaseErrorCompletion = (Error?)->Void
-        
     private init(){
         
     }

@@ -1,0 +1,43 @@
+//
+//  PostService.swift
+//  Instagram
+//
+//  Created by Islam NourEldin on 07/08/2022.
+//
+
+import Firebase
+import UIKit
+
+class PostService{
+    
+    static func uploadPost(caption:String,image:UIImage,user:User,completion:@escaping firebaseErrorCompletion){
+        guard let currentUid = Auth.auth().currentUser?.uid else {return}
+        
+        ImageUploader.uploadProfileImage(profileImage: image) { imageUrl in
+            
+            let data = ["ownerUid":currentUid,
+                        "caption":caption,
+                        "imageUrl":imageUrl,
+                        "timestamp":Timestamp(date: Date()),
+                        "likes":0,
+                        "ownerUsername":user.username,
+                        "ownerImageUrl":user.profileImageUrl] as [String:Any]
+            Constants.collection_posts.addDocument(data: data,completion: completion)
+        }
+    }
+    
+    static func fetchAllPosts(completion:@escaping([Post]?,Error?)->()){
+        
+        Constants.collection_posts.order(by: "timestamp", descending: true).getDocuments { snapshot, error in
+            guard let snapshot = snapshot else {
+                return
+            }
+            let posts = snapshot.documents.map({Post(postId: $0.documentID, dictionary: $0.data())})
+            completion(posts,nil)
+            
+            if let error = error {
+                completion(nil,error)
+            }
+        }
+    }
+}

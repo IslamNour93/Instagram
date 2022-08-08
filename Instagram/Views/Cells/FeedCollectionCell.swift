@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import SDWebImage
 
 class FeedCollectionCell: UICollectionViewCell {
     
@@ -13,6 +14,11 @@ class FeedCollectionCell: UICollectionViewCell {
     
     static let identifier = "feedCell"
     
+    var viewModel:PostViewModel?{
+        didSet{
+            configure()
+        }
+    }
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -23,9 +29,8 @@ class FeedCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var userName: UIButton = {
+    private lazy var usernameButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Venom", for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 15)
         button.addTarget(self, action: #selector(didTapUserNameButton), for: .touchUpInside)
@@ -37,7 +42,6 @@ class FeedCollectionCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
-        imageView.image = UIImage(named: "venom-7")
         
         return imageView
     }()
@@ -68,7 +72,6 @@ class FeedCollectionCell: UICollectionViewCell {
     
     private var likesLabel: UILabel = {
         let label = UILabel()
-        label.text = "1 like"
         label.font = UIFont.boldSystemFont(ofSize: 13)
         label.textColor = .label
         return label
@@ -99,8 +102,8 @@ class FeedCollectionCell: UICollectionViewCell {
         profileImageView.anchor(top: topAnchor,left:leftAnchor,paddingTop: 12,paddingLeft: 12)
         profileImageView.setDimensions(height: 40, width: 40)
         
-        addSubview(userName)
-        userName.centerY(inView: profileImageView,leftAnchor: profileImageView.rightAnchor,paddingLeft: 8)
+        addSubview(usernameButton)
+        usernameButton.centerY(inView: profileImageView,leftAnchor: profileImageView.rightAnchor,paddingLeft: 8)
         
         addSubview(postImageView)
         postImageView.anchor(top:profileImageView.bottomAnchor,left: leftAnchor,right: rightAnchor,paddingTop: 8)
@@ -138,7 +141,16 @@ class FeedCollectionCell: UICollectionViewCell {
         addSubview(stackView)
         
         stackView.anchor(top:postImageView.bottomAnchor,left: leftAnchor,paddingTop: 8, paddingLeft: 8, width: 120,height: 50)
-        
-        
+    }
+    
+    private func configure(){
+        guard let viewModel = viewModel else {
+            return
+        }
+        postImageView.sd_setImage(with: viewModel.imageUrl)
+        captionsLabel.text = viewModel.caption
+        usernameButton.setTitle(viewModel.ownerUsername, for: .normal)
+        profileImageView.sd_setImage(with: viewModel.ownerImageUrl)
+        likesLabel.text = viewModel.likes
     }
 }

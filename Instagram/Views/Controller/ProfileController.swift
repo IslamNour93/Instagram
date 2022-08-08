@@ -11,6 +11,7 @@ class ProfileController: UICollectionViewController{
     
     var user: User{
         didSet{
+            getUserStats()
             collectionView.reloadData()
         }
     }
@@ -41,7 +42,6 @@ class ProfileController: UICollectionViewController{
         headerViewModel.getUserStats { [weak self] userStats in
             guard let self = self else {return}
             self.user.userStats = userStats
-            print("followers:\(self.user.userStats.following),following:\(self.user.userStats.following)")
             self.collectionView.reloadData()
         }
     }
@@ -121,6 +121,7 @@ extension ProfileController:ProfileHeaderProtocol{
         }else if user.isFollowed{
             profileHeader.viewModel?.unfollowUser(onSuccess: {
                 self.user.isFollowed = false
+                self.getUserStats()
                 self.collectionView.reloadData()
                 print("Successfully Unfollowed User...")
                 print(user.uid)
@@ -132,6 +133,7 @@ extension ProfileController:ProfileHeaderProtocol{
                 print("Successfully followed user...")
                 print(user.uid)
                 self.user.isFollowed = true
+                self.getUserStats()
                 self.collectionView.reloadData()
             }
         }

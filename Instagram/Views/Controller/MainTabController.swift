@@ -7,12 +7,14 @@
 
 
 import UIKit
+import YPImagePicker
 
 class MainTabController: UITabBarController{
     
     //MARK: - Properties
     var mainTabbarViewModel = MainTabbarViewModel()
     var loginViewModel = LoginViewModel()
+    
     var user: User?{
         didSet{
             guard let user = user else {
@@ -58,10 +60,48 @@ class MainTabController: UITabBarController{
         }
     }
     
+    private func showImagePicker(){
+        
+        var config = YPImagePickerConfiguration()
+        config.library.mediaType = .photo
+        config.shouldSaveNewPicturesToAlbum = false
+        config.startOnScreen = .library
+        config.hidesBottomBar = false
+        config.hidesStatusBar = false
+        config.screens = [.library]
+        config.library.maxNumberOfItems = 1
+        
+        let picker = YPImagePicker(configuration: config)
+        picker.modalPresentationStyle = .fullScreen
+        present(picker, animated: false, completion: nil)
+        didFinishPicking(picker: picker)
+    }
+    
+    private func didFinishPicking(picker:YPImagePicker){
+        
+        picker.didFinishPicking { [weak self] items, _ in
+            
+            guard let self = self else {return}
+            
+            picker.dismiss(animated: true) {
+                guard let selectedPhoto = items.singlePhoto?.image else {return}
+                let uploadPostVC = UploadPostController()
+                uploadPostVC.currentUser = self.user
+                uploadPostVC.postImage = selectedPhoto
+                uploadPostVC.delegate = self
+                let nav = UINavigationController(rootViewController: uploadPostVC)
+                nav.modalPresentationStyle = .fullScreen
+                self.present(nav,animated: false)
+            }
+        }
+    }
+    
     private func configureViewControllers(user:User?){
+        
         guard let user = user else {
             return
         }
+        self.delegate = self
         view.backgroundColor = .white
         let layout = UICollectionViewFlowLayout()
         let feed = templateNavigationController(unselectedImage: UIImage(imageLiteralResourceName: "home_unselected")
@@ -98,3 +138,24 @@ extension MainTabController:AuthenticationDelegate{
     }
 }
 
+extension MainTabController:UITabBarControllerDelegate{
+    
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        guard let index = viewControllers?.firstIndex(of: viewController) else {return}
+        print(index)
+        
+        if index == 2{
+            showImagePicker()
+        }
+    }
+}
+//MARK: - UploadPostDelegate
+
+extension MainTabController:UploadPostControllerDelegate{
+    
+    func controllerDidFinishUploadingPost(_ controller: UploadPostController) {
+        selectedIndex = 0
+        self.dismiss(animated: true, completion: nil)
+    }
+   
+}
