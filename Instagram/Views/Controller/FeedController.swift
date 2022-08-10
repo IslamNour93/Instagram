@@ -16,7 +16,12 @@ class FeedController: UICollectionViewController{
     var loginViewModel = LoginViewModel()
     
     var viewModel = UploadPostViewModel()
+    
+    var post:Post?
+    
     var posts = [Post]()
+    
+
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -33,11 +38,21 @@ class FeedController: UICollectionViewController{
         }
     }
     
+    @objc func handleRefresher(){
+        posts.removeAll()
+        getPostsData()
+    }
+    
     //MARK: - Helpers
     
     private func configureUI(){
         collectionView.register(FeedCollectionCell.self, forCellWithReuseIdentifier: FeedCollectionCell.identifier)
+        let refresher = UIRefreshControl()
+        refresher.addTarget(self, action: #selector(handleRefresher), for: .valueChanged)
+        collectionView.refreshControl = refresher
+        if post == nil{
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        }
     }
     
     private func checkIfUserIslogged(){
@@ -51,7 +66,9 @@ class FeedController: UICollectionViewController{
     }
     
     private func getPostsData(){
-        viewModel.getAllPosts { posts, error in
+        viewModel.getAllPosts {[weak self] posts, error in
+            guard let self = self else {return}
+            
             if let error = error {
                 print("DEBUG: Error in fetcing posts..:\(error.localizedDescription)")
                 return
@@ -59,9 +76,12 @@ class FeedController: UICollectionViewController{
             
             if let posts = posts {
                 self.posts = posts
-            }
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+                
+                DispatchQueue.main.async {
+                    self.collectionView.refreshControl?.endRefreshing()
+                    print("DEBUG: done refreshing")
+                    self.collectionView.reloadData()
+                }
             }
         }
     }
@@ -71,12 +91,19 @@ class FeedController: UICollectionViewController{
 extension FeedController{
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        return post == nil ? posts.count : 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FeedCollectionCell.identifier, for: indexPath) as! FeedCollectionCell
-        cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        cell.delegate = self
+        if post == nil {
+            cell.viewModel = PostViewModel(post: posts[indexPath.row])
+        }else{
+            if let post = post{
+            cell.viewModel = PostViewModel(post: post)
+            }
+        }
         return cell
     }
 }
@@ -88,5 +115,14 @@ extension FeedController: UICollectionViewDelegateFlowLayout{
         
         let width = view.frame.width
         return CGSize(width: width, height: width*1.5)
+    }
+}
+
+//MARK: - FeedCollectionCellDelegate
+
+extension FeedController:FeedCollectionCellDelegate{
+    func cell(_ cell: FeedCollectionCell, post: Post) {
+        let vc = CommentsController(post: post)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

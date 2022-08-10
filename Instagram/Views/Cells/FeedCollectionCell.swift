@@ -8,6 +8,11 @@
 import UIKit
 import SDWebImage
 
+protocol FeedCollectionCellDelegate:AnyObject{
+    func cell(_ cell: FeedCollectionCell,post:Post)
+}
+
+
 class FeedCollectionCell: UICollectionViewCell {
     
     //MARK: - Properties
@@ -19,6 +24,9 @@ class FeedCollectionCell: UICollectionViewCell {
             configure()
         }
     }
+    
+    weak var delegate:FeedCollectionCellDelegate?
+    
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -59,6 +67,7 @@ class FeedCollectionCell: UICollectionViewCell {
         
         button.setImage(UIImage(named: "comment"), for: .normal)
         button.tintColor = .label
+        button.addTarget(self, action: #selector(didTapCommentsButton), for: .touchUpInside)
         return button
     }()
     
@@ -130,6 +139,14 @@ class FeedCollectionCell: UICollectionViewCell {
     
     @objc func didTapUserNameButton(){
         print("UserButton is tapped")
+    }
+    
+    @objc func didTapCommentsButton(){
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        self.delegate?.cell(self, post: viewModel.post)
     }
     
     //MARK: - Helpers

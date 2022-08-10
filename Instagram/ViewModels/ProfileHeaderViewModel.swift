@@ -47,6 +47,10 @@ class ProfileHeaderViewModel{
         return attributeStatText(value: user.userStats.following, label: "following")
     }
     
+    var numberOfPosts:NSAttributedString{
+        return attributeStatText(value: user.userStats.posts, label: "posts")
+    }
+    
     init(user:User){
         self.user = user
     }
@@ -73,8 +77,6 @@ class ProfileHeaderViewModel{
     
     func getUserStats(completion:@escaping(UserStats)->()){
         UserServices.shared.checkUserStats(uid: user.uid) { userStats in
-//            guard let self = self else {return}
-//            self.user.userStats = userStats
             completion(userStats)
         }
     }

@@ -9,7 +9,7 @@ import Foundation
 
 class PostViewModel{
     
-    private let post:Post
+    let post:Post
     
     var likes:String{
         if post.likes == 1{

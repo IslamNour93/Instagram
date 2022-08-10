@@ -81,10 +81,12 @@ class UserServices{
             Constants.collection_following.document(uid).collection("user-following").getDocuments { followingSnapshot, error in
                 guard let following = followingSnapshot?.documents.count else{return}
                 
-                completion(UserStats(followers: followers, following: following))
+                Constants.collection_posts.whereField("ownerUid", isEqualTo: uid).getDocuments { postsSnapshot, error in
+                    guard let posts = postsSnapshot?.documents.count else{return}
+                completion(UserStats(followers: followers, following: following, posts: posts))
                 }
             }
         }
+    }
 }
-
 

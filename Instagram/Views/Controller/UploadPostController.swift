@@ -40,6 +40,7 @@ class UploadPostController: UIViewController {
         let textView = CustomTextView()
         textView.font = UIFont.systemFont(ofSize: 14)
         textView.placeholderText = "Enter caption"
+        textView.placeholderShouldBeCentered = false
         return textView
     }()
     

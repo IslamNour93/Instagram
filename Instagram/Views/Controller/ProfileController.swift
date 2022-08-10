@@ -89,9 +89,11 @@ class ProfileController: UICollectionViewController{
     }
     
     private func setupCollectionView(){
+        
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
         
         collectionView.register(ProfileHeaderView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: ProfileHeaderView.identifier)
+        
     }
 }
 
@@ -101,6 +103,7 @@ class ProfileController: UICollectionViewController{
 //MARK: - CollectionView Datasource
 
 extension ProfileController{
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ProfileCell.identifier, for: indexPath) as! ProfileCell
         cell.viewModel = PostViewModel(post: posts[indexPath.row])
@@ -116,6 +119,17 @@ extension ProfileController{
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         posts.count
+    }
+}
+
+//MARK: - Collectionview Delegate
+
+extension ProfileController{
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let feedVC = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
+        feedVC.post = posts[indexPath.row]
+        navigationController?.pushViewController(feedVC, animated: false)
     }
 }
 
@@ -143,7 +157,10 @@ extension ProfileController: UICollectionViewDelegateFlowLayout{
     }
 }
 
+//MARK: - ProfileHeaderProtocol
+
 extension ProfileController:ProfileHeaderProtocol{
+    
     func header(_ profileHeader: ProfileHeaderView, didTapActionButtonFor user: User) {
         if user.isCurrentUser{
             

@@ -8,6 +8,7 @@
 import Firebase
 
 struct Post{
+    
     var timestamp: Timestamp
     var likes: Int
     var imageUrl:String
