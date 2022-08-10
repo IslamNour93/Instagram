@@ -10,6 +10,7 @@ import SDWebImage
 
 protocol FeedCollectionCellDelegate:AnyObject{
     func cell(_ cell: FeedCollectionCell,post:Post)
+    func cell(_ cell: FeedCollectionCell,userUid:String)
 }
 
 
@@ -138,15 +139,21 @@ class FeedCollectionCell: UICollectionViewCell {
     //MARK: - Actions
     
     @objc func didTapUserNameButton(){
-        print("UserButton is tapped")
+        guard let viewModel = viewModel else {
+            return
+        }
+        self.delegate?.cell(self, userUid: viewModel.post.ownerUid)
     }
     
     @objc func didTapCommentsButton(){
         guard let viewModel = viewModel else {
             return
         }
-
         self.delegate?.cell(self, post: viewModel.post)
+    }
+    
+    @objc func didTapLikeButton(){
+        
     }
     
     //MARK: - Helpers
@@ -170,4 +177,5 @@ class FeedCollectionCell: UICollectionViewCell {
         profileImageView.sd_setImage(with: viewModel.ownerImageUrl)
         likesLabel.text = viewModel.likes
     }
+    
 }

@@ -12,6 +12,12 @@ class CommentsController: UICollectionViewController {
 
     var post:Post
     
+    var comments = [Comment]()
+    
+    var viewModel: CommentViewModel?
+    
+    var mainTabViewModel = MainTabbarViewModel()
+    
     private lazy var inputCommentTextView:CommentInputAccessoriesView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width , height: 80)
         let commentView = CommentInputAccessoriesView(frame: frame)
@@ -33,6 +39,7 @@ class CommentsController: UICollectionViewController {
         super.viewDidLoad()
 
         setupCollectionView()
+        getPosts()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,24 +63,35 @@ class CommentsController: UICollectionViewController {
     
     //MARK: - Helpers
     
-    func setupCollectionView(){
+    private func setupCollectionView(){
         navigationItem.title = "Comments"
         self.collectionView!.register(CommentsCell.self, forCellWithReuseIdentifier: CommentsCell.reuseIdentifier)
         self.collectionView.alwaysBounceVertical = true
         self.collectionView.keyboardDismissMode = .interactive
     }
+    
+    private func getPosts(){
+       
+        CommentService.fetchComments(postId: post.postId) { comments in
+            self.comments = comments
+            
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
+    }
 
     // MARK: UICollectionViewDataSource
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of items
-        return 10
+      
+        return comments.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CommentsCell.reuseIdentifier, for: indexPath) as! CommentsCell
-    
-    
+        cell.viewModel = CommentViewModel(comment: comments[indexPath.row])
+        cell.delegate = self
         return cell
     }
 }
@@ -97,7 +115,6 @@ extension CommentsController{
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
     }
-
 }
 
 extension CommentsController:CommentInputAccessoriesViewDelegate{
@@ -105,12 +122,34 @@ extension CommentsController:CommentInputAccessoriesViewDelegate{
         guard let tabBar = self.tabBarController as? MainTabController else {return}
         
         guard let user = tabBar.user else {return}
-    
+            
+        showLoader(true)
+        
         CommentService.postComment(forpost: commentText, postId: post.postId , user: user, completion: {
             error in
-            
+            if let error = error{
+                print("DEBUG: Can't post comment..\(error.localizedDescription)")
+            }else{
+                DispatchQueue.main.async {
+                    self.showLoader(false)
+                }
+            }
         })
         inputView.clearCommentText()
+    }
+}
+
+//MARK: - CommentsCellDelegate
+
+extension CommentsController:CommentsCellDelegate{
+    func cell(_ cell: CommentsCell, userID: String) {
+        mainTabViewModel.getUser(withUid: userID) { user, error in
+            guard let user = user else {
+                return
+            }
+            let vc = ProfileController(user: user)
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     

@@ -49,7 +49,11 @@ class PostService{
                     return
                 }
 
-                let posts = snapshot.documents.map({Post(postId: $0.documentID, dictionary: $0.data())})
+            var posts = snapshot.documents.map({Post(postId: $0.documentID, dictionary: $0.data())})
+            
+            posts.sort { (firstPost, nextPost)->Bool in
+                return firstPost.timestamp.seconds > nextPost.timestamp.seconds
+            }
                 completion(posts,nil)
                 
                 if let error = error {

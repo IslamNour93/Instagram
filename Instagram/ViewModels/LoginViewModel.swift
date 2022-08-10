@@ -15,10 +15,10 @@ protocol AuthenticationProtocol{
 }
 
 class LoginViewModel:NSObject{
-    var user: Credentials?
+    var credential: Credentials?
     
     override init() {
-        user = Credentials()
+        credential = Credentials()
     }
     
     func signIn(withEmail email:String,password:String,onCompletion:@escaping(AuthDataResult?,Error?)->()){
@@ -54,7 +54,7 @@ class LoginViewModel:NSObject{
 extension LoginViewModel:AuthenticationProtocol{
     
     var formIsValid:Bool{
-        return user?.email?.isEmpty == false && user?.password?.isEmpty == false
+        return credential?.email?.isEmpty == false && credential?.password?.isEmpty == false
     }
     
     var buttonBackgroundColor:UIColor{

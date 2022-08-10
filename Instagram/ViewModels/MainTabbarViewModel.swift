@@ -11,8 +11,8 @@ import Foundation
 class MainTabbarViewModel{
     
     
-    func getUser(completion:@escaping(User?,Error?)->()){
-        UserServices.shared.fetchUser { (user,error) in
+    func getUser(withUid uid:String,completion:@escaping(User?,Error?)->()){
+        UserServices.shared.fetchUser(withUid: uid) { user, error in
             if let error = error {
                 completion(nil,error)
             }else{

@@ -6,23 +6,35 @@
 //
 
 import UIKit
+import SDWebImage
+
+protocol CommentsCellDelegate:AnyObject{
+    func cell(_ cell:CommentsCell,userID:String)
+}
 
 class CommentsCell: UICollectionViewCell {
     
     static let reuseIdentifier = "CommentsCell"
+    
+    weak var delegate:CommentsCellDelegate?
+    
+    var viewModel:CommentViewModel?{
+        didSet{
+            configure()
+        }
+    }
     
     private let userImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 50/2
-        imageView.image = UIImage(named: "venom-7")
+        
         return imageView
     }()
     
     private lazy var commentLabel:UILabel = {
         let label = UILabel()
-        label.attributedText = attributeStatText(username: "Islam", comment: "Nice pic keep on..")
         return label
     }()
     
@@ -36,6 +48,8 @@ class CommentsCell: UICollectionViewCell {
         addSubview(commentLabel)
         commentLabel.centerY(inView: userImageView)
         commentLabel.anchor(left:userImageView.rightAnchor,right:rightAnchor,paddingLeft: 8,paddingRight: 8)
+        commentLabel.numberOfLines = 0
+        commentLabel.lineBreakMode = .byWordWrapping
         
         }
     
@@ -46,9 +60,34 @@ class CommentsCell: UICollectionViewCell {
     //MARK: - Helpers
     
     private func attributeStatText(username:String,comment:String)->NSAttributedString{
-         let attributedText = NSMutableAttributedString(string: "\(username)   ", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
+         let attributedText = NSMutableAttributedString(string: "\(username)  ", attributes: [.font:UIFont.boldSystemFont(ofSize: 14)])
          attributedText.append(NSAttributedString(string: comment, attributes: [.font:UIFont.systemFont(ofSize: 14),.foregroundColor:UIColor.label]))
          
          return attributedText
      }
+    
+    private func configure(){
+        guard let viewModel = viewModel else {
+            return
+        }
+
+        userImageView.sd_setImage(with: viewModel.profileImageUrl)
+        commentLabel.attributedText = attributeStatText(username: viewModel.username, comment: viewModel.commentText)
+        
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(imageTapped))
+        userImageView.addGestureRecognizer(tapGR)
+        userImageView.isUserInteractionEnabled = true
+    }
+    
+    //MARK: Actions
+    
+    @objc func imageTapped(sender:UITapGestureRecognizer){
+        if sender.state == .ended{
+            print("user tapped image")
+            guard let viewModel = viewModel else {
+                return
+            }
+            delegate?.cell(self, userID: viewModel.userUid)
+        }
+    }
 }

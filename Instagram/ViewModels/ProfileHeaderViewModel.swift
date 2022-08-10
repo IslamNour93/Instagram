@@ -10,6 +10,7 @@ import Firebase
 import UIKit
 
 class ProfileHeaderViewModel{
+    
     var user: User
     
     var fullname:String{

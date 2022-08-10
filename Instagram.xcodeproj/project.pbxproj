@@ -42,6 +42,8 @@
 		39706E6F289B66BE0092D6B6 /* SearchCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */; };
 		39BE022A28A2DB080096E896 /* CommentInputAccessoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022928A2DB080096E896 /* CommentInputAccessoriesView.swift */; };
 		39BE022C28A3062F0096E896 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022B28A3062F0096E896 /* CommentService.swift */; };
+		39BE022E28A38B770096E896 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022D28A38B770096E896 /* Comment.swift */; };
+		39BE023028A392110096E896 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022F28A392110096E896 /* CommentViewModel.swift */; };
 		39CAB22F289F802C0040684E /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CAB22E289F802C0040684E /* UploadPostController.swift */; };
 		39CAB231289FAA510040684E /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CAB230289FAA510040684E /* CustomTextView.swift */; };
 		39CE3FEE28A041BC00DAF030 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CE3FED28A041BC00DAF030 /* PostService.swift */; };
@@ -89,6 +91,8 @@
 		39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCellViewModel.swift; sourceTree = "<group>"; };
 		39BE022928A2DB080096E896 /* CommentInputAccessoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputAccessoriesView.swift; sourceTree = "<group>"; };
 		39BE022B28A3062F0096E896 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
+		39BE022D28A38B770096E896 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		39BE022F28A392110096E896 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
 		39CAB22E289F802C0040684E /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		39CAB230289FAA510040684E /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		39CE3FED28A041BC00DAF030 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -208,6 +212,7 @@
 				393A80F42896121F001FE0A0 /* Credentials.swift */,
 				39140E592899BE8F00B27073 /* User.swift */,
 				39CE3FF128A06BD500DAF030 /* Post.swift */,
+				39BE022D28A38B770096E896 /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -232,6 +237,7 @@
 				39706E6E289B66BE0092D6B6 /* SearchCellViewModel.swift */,
 				39CE3FEF28A06B9A00DAF030 /* UploadPostViewModel.swift */,
 				39CE3FF328A07BE000DAF030 /* PostViewModel.swift */,
+				39BE022F28A392110096E896 /* CommentViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -375,9 +381,11 @@
 				394BA2D728908F8B0056AA96 /* Extensions.swift in Sources */,
 				39FE96FB288F3C0E00B98468 /* FeedController.swift in Sources */,
 				39CE3FF028A06B9A00DAF030 /* UploadPostViewModel.swift in Sources */,
+				39BE022E28A38B770096E896 /* Comment.swift in Sources */,
 				39FE9703288F3E2500B98468 /* NotificationsController.swift in Sources */,
 				393A80FA28962D85001FE0A0 /* ImageUploader.swift in Sources */,
 				39140E5E2899C3B500B27073 /* Constants.swift in Sources */,
+				39BE023028A392110096E896 /* CommentViewModel.swift in Sources */,
 				39706E6F289B66BE0092D6B6 /* SearchCellViewModel.swift in Sources */,
 				39CAB231289FAA510040684E /* CustomTextView.swift in Sources */,
 				396A3D4B28A205010029903A /* CommentsController.swift in Sources */,

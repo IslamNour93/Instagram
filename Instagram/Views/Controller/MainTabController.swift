@@ -8,6 +8,7 @@
 
 import UIKit
 import YPImagePicker
+import Firebase
 
 class MainTabController: UITabBarController{
     
@@ -35,7 +36,9 @@ class MainTabController: UITabBarController{
     //MARK: - Getting Data From ViewModel
     
     func fetchUser(){
-        mainTabbarViewModel.getUser { fetchedUser, error in
+        
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        mainTabbarViewModel.getUser(withUid: uid) { fetchedUser, error in
             if let error = error {
                 print("Debug: Error Can't fetch User Data...\(error.localizedDescription)")
             }
@@ -43,7 +46,6 @@ class MainTabController: UITabBarController{
                 return
             }
             self.user = fetchedUser
-
         }
     }
     

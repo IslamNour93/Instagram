@@ -17,6 +17,10 @@ class FeedController: UICollectionViewController{
     
     var viewModel = UploadPostViewModel()
     
+    var mainTabbarViewModel = MainTabbarViewModel()
+    
+    var users = [User]()
+    
     var post:Post?
     
     var posts = [Post]()
@@ -121,6 +125,16 @@ extension FeedController: UICollectionViewDelegateFlowLayout{
 //MARK: - FeedCollectionCellDelegate
 
 extension FeedController:FeedCollectionCellDelegate{
+    
+    func cell(_ cell: FeedCollectionCell, userUid: String) {
+        mainTabbarViewModel.getUser(withUid: userUid) { user, error in
+            if let user = user {
+                let vc = ProfileController(user: user)
+                self.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
+    }
+    
     func cell(_ cell: FeedCollectionCell, post: Post) {
         let vc = CommentsController(post: post)
         navigationController?.pushViewController(vc, animated: true)
