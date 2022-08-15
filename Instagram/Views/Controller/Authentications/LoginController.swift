@@ -11,7 +11,9 @@ class LoginController: UIViewController {
 
     //MARK: - Properties
     var loginViewModel = LoginViewModel()
+    
     var delegate: AuthenticationDelegate?
+    
     let logoImage: UIImageView = {
        let iv = UIImageView()
         iv.contentMode = .scaleAspectFill

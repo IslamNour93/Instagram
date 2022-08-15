@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
-class PostViewModel{
+struct PostViewModel{
     
-    let post:Post
+    var post:Post
     
     var likes:String{
         if post.likes == 1{
@@ -33,6 +34,16 @@ class PostViewModel{
     
     var ownerUsername:String{
         return post.ownerUsername
+    }
+    
+    var likeButtonImage:UIImage?{
+        let imageName = post.didLike ? "like_selected" : "like_unselected"
+        
+        return UIImage(named: imageName)
+    }
+    
+    var likeButtonTintColor:UIColor{
+        return post.didLike ? .red : .label
     }
     
     init(post:Post){

@@ -23,7 +23,12 @@ class FeedController: UICollectionViewController{
     
     var post:Post?
     
-    var posts = [Post]()
+    var posts = [Post](){
+        didSet{
+            print("Posts observer is called")
+            collectionView.reloadData()
+        }
+    }
     
 
     
@@ -69,6 +74,19 @@ class FeedController: UICollectionViewController{
         }
     }
     
+    private func checkIfUserLikePost(){
+        
+        self.posts.forEach { post in
+            viewModel.checkIfUserLikedPost(post: post) { didLike in
+//                guard let self = self else {return}
+                if let index = self.posts.firstIndex(where: {$0.postId == post.postId}){
+                    self.posts[index].didLike = didLike
+                }
+            }
+        }
+        
+    }
+    
     private func getPostsData(){
         viewModel.getAllPosts {[weak self] posts, error in
             guard let self = self else {return}
@@ -80,12 +98,10 @@ class FeedController: UICollectionViewController{
             
             if let posts = posts {
                 self.posts = posts
-                
-                DispatchQueue.main.async {
-                    self.collectionView.refreshControl?.endRefreshing()
-                    print("DEBUG: done refreshing")
-                    self.collectionView.reloadData()
-                }
+                self.checkIfUserLikePost()
+                self.collectionView.refreshControl?.endRefreshing()
+                self.collectionView.reloadData()
+                print("DEBUG: done refreshing")
             }
         }
     }
@@ -126,7 +142,7 @@ extension FeedController: UICollectionViewDelegateFlowLayout{
 
 extension FeedController:FeedCollectionCellDelegate{
     
-    func cell(_ cell: FeedCollectionCell, userUid: String) {
+    func cell(_ cell: FeedCollectionCell, wantsToNavigateTo userUid: String) {
         mainTabbarViewModel.getUser(withUid: userUid) { user, error in
             if let user = user {
                 let vc = ProfileController(user: user)
@@ -135,8 +151,42 @@ extension FeedController:FeedCollectionCellDelegate{
         }
     }
     
-    func cell(_ cell: FeedCollectionCell, post: Post) {
+    func cell(_ cell: FeedCollectionCell, wantsToShowCommentsFor post: Post) {
         let vc = CommentsController(post: post)
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func cell(_ cell: FeedCollectionCell,didLike post:Post){
+        
+        guard let tabbar = tabBarController as? MainTabController else {return}
+        guard let user = tabbar.user else {return}
+        
+        cell.viewModel?.post.didLike.toggle()
+         if post.didLike{
+             print("Did tap unlike Post")
+             viewModel.unlikePost(post: post) {
+                 print("Did unlike Post")
+                 cell.likeButton.setImage(UIImage(named: "like_unselected"), for: .normal)
+                 cell.likeButton.tintColor = .label
+                 cell.viewModel?.post.likes = post.likes-1
+                 self.collectionView.reloadData()
+//                 print(cell.viewModel?.post.likes)
+             }
+             
+         }else{
+             print("Did tap like Post")
+             viewModel.likePost(post: post) {
+                 print("Did like Post")
+                 cell.likeButton.tintColor = .red
+                 cell.likeButton.setImage(UIImage(named: "like_selected"), for: .normal)
+                 cell.viewModel?.post.likes = post.likes+1
+//                 self.collectionView.reloadData()
+                 NotificationService.uploadNotification(toUid: post.ownerUid, fromUser: user, type: .like, post: post)
+//                 print(cell.viewModel?.post.likes)
+             } 
+         }
+        
+        
+    }
+    
 }

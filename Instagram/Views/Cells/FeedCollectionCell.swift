@@ -9,8 +9,9 @@ import UIKit
 import SDWebImage
 
 protocol FeedCollectionCellDelegate:AnyObject{
-    func cell(_ cell: FeedCollectionCell,post:Post)
-    func cell(_ cell: FeedCollectionCell,userUid:String)
+    func cell(_ cell: FeedCollectionCell,wantsToShowCommentsFor post:Post)
+    func cell(_ cell: FeedCollectionCell,wantsToNavigateTo userUid:String)
+    func cell(_ cell: FeedCollectionCell,didLike post:Post)
 }
 
 
@@ -34,7 +35,6 @@ class FeedCollectionCell: UICollectionViewCell {
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.layer.cornerRadius = 40/2
-        imageView.image = UIImage(named: "venom-7")
         return imageView
     }()
     
@@ -55,11 +55,9 @@ class FeedCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    private lazy var likeButton: UIButton = {
+    lazy var likeButton: UIButton = {
         let button = UIButton(type: .system)
-        
-        button.setImage(UIImage(named: "like_unselected"), for: .normal)
-        button.tintColor = .label
+        button.addTarget(self, action: #selector(didTapLikeButton), for: .touchUpInside)
         return button
     }()
     
@@ -89,7 +87,6 @@ class FeedCollectionCell: UICollectionViewCell {
     
     private var captionsLabel: UILabel = {
         let label = UILabel()
-        label.text = "Nothing to say..."
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .label
         return label
@@ -142,18 +139,22 @@ class FeedCollectionCell: UICollectionViewCell {
         guard let viewModel = viewModel else {
             return
         }
-        self.delegate?.cell(self, userUid: viewModel.post.ownerUid)
+        self.delegate?.cell(self, wantsToNavigateTo: viewModel.post.ownerUid)
     }
     
     @objc func didTapCommentsButton(){
         guard let viewModel = viewModel else {
             return
         }
-        self.delegate?.cell(self, post: viewModel.post)
+        self.delegate?.cell(self, wantsToShowCommentsFor: viewModel.post)
     }
     
     @objc func didTapLikeButton(){
         
+        guard let viewModel = viewModel else {
+            return
+        }
+        self.delegate?.cell(self, didLike: viewModel.post)
     }
     
     //MARK: - Helpers
@@ -176,6 +177,8 @@ class FeedCollectionCell: UICollectionViewCell {
         usernameButton.setTitle(viewModel.ownerUsername, for: .normal)
         profileImageView.sd_setImage(with: viewModel.ownerImageUrl)
         likesLabel.text = viewModel.likes
+        likeButton.setImage(viewModel.likeButtonImage, for: .normal)
+        likeButton.tintColor = viewModel.likeButtonTintColor
     }
     
 }

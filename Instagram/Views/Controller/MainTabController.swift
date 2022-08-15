@@ -104,7 +104,7 @@ class MainTabController: UITabBarController{
             return
         }
         self.delegate = self
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         let layout = UICollectionViewFlowLayout()
         let feed = templateNavigationController(unselectedImage: UIImage(imageLiteralResourceName: "home_unselected")
                                                 , selectedImage: UIImage(imageLiteralResourceName: "home_selected"), rootViewController: FeedController(collectionViewLayout: layout))
@@ -115,7 +115,7 @@ class MainTabController: UITabBarController{
         
         viewControllers = [feed,search,imageSelector,notifications,profile]
         tabBar.isTranslucent = false
-        tabBar.tintColor = .black
+        tabBar.tintColor = .label
         
     }
     
@@ -124,7 +124,9 @@ class MainTabController: UITabBarController{
         
         navigationController.tabBarItem.image = unselectedImage
         navigationController.tabBarItem.selectedImage = selectedImage
-        navigationController.navigationBar.tintColor = .black
+        navigationController.navigationBar.tintColor = .label
+        navigationController.navigationBar.backgroundColor = .systemBackground
+        
         navigationController.navigationBar.isTranslucent = false
         return navigationController
     }
@@ -163,4 +165,12 @@ extension MainTabController:UploadPostControllerDelegate{
         feed?.handleRefresher()
     }
    
+}
+
+extension UIApplication {
+
+   var statusBarView: UIView? {
+      return value(forKey: "statusBar") as? UIView
+    }
+
 }

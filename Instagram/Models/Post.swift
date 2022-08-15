@@ -11,12 +11,13 @@ struct Post{
     
     var timestamp: Timestamp
     var likes: Int
-    var imageUrl:String
+    let imageUrl:String
     var caption:String
-    var ownerUid:String
+    let ownerUid:String
     var postId:String
-    var ownerImageUrl:String
-    var ownerUsername:String
+    let ownerImageUrl:String
+    let ownerUsername:String
+    var didLike = false
     
     init(postId:String,dictionary:[String:Any]){
         self.timestamp = dictionary["timestamp"] as? Timestamp ?? Timestamp(date: Date())

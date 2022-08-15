@@ -30,15 +30,17 @@ class CommentInputAccessoriesView: UIView {
         button.setTitle("Comment", for: .normal)
         button.setTitleColor(.label, for: .normal)
         button.addTarget(self, action: #selector(hadnleCommentButton), for: .touchUpInside)
-        
         return button
     }()
     
     override init(frame: CGRect){
     super.init(frame: frame)
         
+        configure()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(configure), name: UITextView.textDidChangeNotification, object: nil)
         autoresizingMask = .flexibleHeight
-        backgroundColor = .white
+        backgroundColor = .systemBackground
         
         addSubview(commentButton)
         commentButton.anchor(top:topAnchor,
@@ -74,16 +76,29 @@ class CommentInputAccessoriesView: UIView {
     
     //MARK: Helpers
     
+   @objc func configure(){
+        commentButton.isEnabled = !commentTextView.text.isEmpty
+       if commentTextView.text.isEmpty{
+           commentButton.setTitleColor(.lightGray, for: .normal)
+       }else{
+           commentButton.setTitleColor(.label, for: .normal)
+       }
+}
+    
     func clearCommentText(){
         commentTextView.text = nil
         commentTextView.placeholder.isHidden = false
+        configure()
     }
     //MARK: - Actions
     
     @objc func hadnleCommentButton(){
-       
+        if commentTextView.text.isEmpty{
+ 
+        }else{
         delegate?.inputView(self, commentText: commentTextView.text)
         print("did tap button comment")
+        }
     }
     
     
