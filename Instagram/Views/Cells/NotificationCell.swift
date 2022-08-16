@@ -6,11 +6,18 @@
 //
 
 import UIKit
+import SDWebImage
 
 class NotificationCell: UITableViewCell {
 
     //MARK: - Properties
     static let identifier = "NotificationCell"
+    
+    var viewModel:NotificationViewModel?{
+        didSet{
+            configureCell()
+        }
+    }
     
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
@@ -22,9 +29,7 @@ class NotificationCell: UITableViewCell {
     }()
     private let notificationLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
-        label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.text = "Islam93 liked your post. 2m ago"
+        label.numberOfLines = 0
         return label
     }()
     
@@ -46,7 +51,7 @@ class NotificationCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 5
-        imageView.image = UIImage(named: "venom-7")
+
         return imageView
     }()
     
@@ -69,18 +74,29 @@ class NotificationCell: UITableViewCell {
     private func configureUI(){
         addSubview(profileImageView)
         profileImageView.anchor(top:topAnchor,left: leftAnchor,paddingTop: 6,paddingLeft: 12,width:60,height:60)
-        addSubview(notificationLabel)
+        
         addSubview(followButton)
-        notificationLabel.centerY(inView: profileImageView)
-        notificationLabel.anchor(left:profileImageView.rightAnchor,right: rightAnchor,paddingLeft: 8,paddingRight: 108,height: 20)
-//        notificationLabel.lineBreakMode = .byWordWrapping
-        notificationLabel.numberOfLines = 0
         followButton.centerY(inView: profileImageView)
         followButton.anchor(right:rightAnchor,paddingRight: 8,width: 100,height: 30)
-        followButton.isHidden = true
+        
         addSubview(postImageView)
         postImageView.centerY(inView: profileImageView)
         postImageView.anchor(right:rightAnchor,paddingRight: 8,width: 60,height: 60)
+        
+        addSubview(notificationLabel)
+        notificationLabel.centerY(inView: profileImageView)
+        notificationLabel.anchor(left:profileImageView.rightAnchor,right: followButton.leftAnchor,paddingLeft: 8,paddingRight: 8,height: 20)
+        notificationLabel.numberOfLines = 0
+    }
+    
+    private func configureCell(){
+        guard let viewModel = viewModel else {return}
+        postImageView.sd_setImage(with: viewModel.postImageUrl)
+        profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+        notificationLabel.attributedText = viewModel.notificationMessage
+        postImageView.isHidden = viewModel.shouldHidePostImage
+        followButton.isHidden = viewModel.shouldHideFollowButton
+        
     }
     
     //MARK: - Actions

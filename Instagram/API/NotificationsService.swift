@@ -32,12 +32,17 @@ static func uploadNotification(toUid uid:String,fromUser: User,type:Notification
     
     static func fetchAllNotifications(completion:@escaping ([Notification]?)->()){
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        Constants.collection_notifications.document(uid).collection("user-notifications").getDocuments { snapshot, error in
-            if let error = error{
-                print("DEBUG: Error in fetching all Notifications:\(error)")
-            }
-            guard let snapshot = snapshot else {return}
-            let notifications = snapshot.documents.map({Notification(dictionary: $0.data())})
+        var notifications = [Notification]()
+        Constants.collection_notifications.document(uid).collection("user-notifications").order(by: "timestamp", descending: true).addSnapshotListener { snaphotListner, error in
+                guard let snapshotListner = snaphotListner else {return}
+                
+                snapshotListner.documentChanges.forEach { changes in
+                    if changes.type == .added {
+                        let data = changes.document.data()
+                        let notification = Notification(dictionary: data)
+                        notifications.append(notification)
+                    }
+                }
             completion(notifications)
         }
     }

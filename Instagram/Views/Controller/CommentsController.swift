@@ -135,6 +135,7 @@ extension CommentsController:CommentInputAccessoriesViewDelegate{
                 }
             }
         })
+        NotificationService.uploadNotification(toUid: post.ownerUid, fromUser: user, type: .comment, post: post)
         inputView.clearCommentText()
     }
 }

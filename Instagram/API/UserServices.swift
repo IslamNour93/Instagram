@@ -19,6 +19,11 @@ class UserServices{
         
     }
     
+    func fetchCurrentUser()->String{
+        guard let uid = Auth.auth().currentUser?.uid else {fatalError()}
+        return uid
+    }
+    
     func fetchUser(withUid uid:String,completion:@escaping(User?,Error?)->()){
         
         Constants.collection_users.document(uid).getDocument { snapShot, error in
