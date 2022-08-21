@@ -15,7 +15,7 @@ class FeedController: UICollectionViewController{
     
     var loginViewModel = LoginViewModel()
     
-    var viewModel = UploadPostViewModel()
+    var uploadPostViewModel = UploadPostViewModel()
     
     var mainTabbarViewModel = MainTabbarViewModel()
     
@@ -56,6 +56,7 @@ class FeedController: UICollectionViewController{
     
     private func configureUI(){
         collectionView.register(FeedCollectionCell.self, forCellWithReuseIdentifier: FeedCollectionCell.identifier)
+        collectionView.showsVerticalScrollIndicator = false
         let refresher = UIRefreshControl()
         refresher.addTarget(self, action: #selector(handleRefresher), for: .valueChanged)
         collectionView.refreshControl = refresher
@@ -77,7 +78,7 @@ class FeedController: UICollectionViewController{
     private func checkIfUserLikePost(){
         
         self.posts.forEach { post in
-            viewModel.checkIfUserLikedPost(post: post) { didLike in
+            uploadPostViewModel.checkIfUserLikedPost(post: post) { didLike in
 //                guard let self = self else {return}
                 if let index = self.posts.firstIndex(where: {$0.postId == post.postId}){
                     self.posts[index].didLike = didLike
@@ -88,14 +89,9 @@ class FeedController: UICollectionViewController{
     }
     
     private func getPostsData(){
-        viewModel.getAllPosts {[weak self] posts, error in
+        
+        uploadPostViewModel.fetchFeedPosts {[weak self] posts in
             guard let self = self else {return}
-            
-            if let error = error {
-                print("DEBUG: Error in fetcing posts..:\(error.localizedDescription)")
-                return
-            }
-            
             if let posts = posts {
                 self.posts = posts
                 self.checkIfUserLikePost()
@@ -164,23 +160,21 @@ extension FeedController:FeedCollectionCellDelegate{
         cell.viewModel?.post.didLike.toggle()
          if post.didLike{
              print("Did tap unlike Post")
-             viewModel.unlikePost(post: post) {
+             uploadPostViewModel.unlikePost(post: post) {
                  print("Did unlike Post")
                  cell.likeButton.setImage(UIImage(named: "like_unselected"), for: .normal)
                  cell.likeButton.tintColor = .label
                  cell.viewModel?.post.likes = post.likes-1
-                 self.collectionView.reloadData()
 //                 print(cell.viewModel?.post.likes)
              }
              
          }else{
              print("Did tap like Post")
-             viewModel.likePost(post: post) {
+             uploadPostViewModel.likePost(post: post) {
                  print("Did like Post")
                  cell.likeButton.tintColor = .red
                  cell.likeButton.setImage(UIImage(named: "like_selected"), for: .normal)
                  cell.viewModel?.post.likes = post.likes+1
-//                 self.collectionView.reloadData()
                  NotificationService.uploadNotification(toUid: post.ownerUid, fromUser: user, type: .like, post: post)
 //                 print(cell.viewModel?.post.likes)
              } 

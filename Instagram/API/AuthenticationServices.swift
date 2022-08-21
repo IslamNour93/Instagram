@@ -7,6 +7,9 @@
 
 
 import Firebase
+import FirebaseAuth
+
+typealias SendPasswordResetCallback = (Error?)->()
 
 class AuthenticationServices{
     
@@ -33,5 +36,9 @@ class AuthenticationServices{
     
     static func logUserIn(email:String,password:String,completion:@escaping (AuthDataResult?,Error?)->() ){
         Auth.auth().signIn(withEmail: email, password: password, completion: completion)
+    }
+    
+    static func resetPassword(withEmail email:String,completion: SendPasswordResetCallback?){
+        Auth.auth().sendPasswordReset(withEmail: email, completion: completion)
     }
 }

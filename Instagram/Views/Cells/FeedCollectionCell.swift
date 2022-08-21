@@ -29,12 +29,13 @@ class FeedCollectionCell: UICollectionViewCell {
     
     weak var delegate:FeedCollectionCellDelegate?
     
-    private let profileImageView:UIImageView = {
+    private lazy var profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.isUserInteractionEnabled = true
         imageView.layer.cornerRadius = 40/2
+        
         return imageView
     }()
     
@@ -109,6 +110,7 @@ class FeedCollectionCell: UICollectionViewCell {
         profileImageView.anchor(top: topAnchor,left:leftAnchor,paddingTop: 12,paddingLeft: 12)
         profileImageView.setDimensions(height: 40, width: 40)
         
+        
         addSubview(usernameButton)
         usernameButton.centerY(inView: profileImageView,leftAnchor: profileImageView.rightAnchor,paddingLeft: 8)
         
@@ -155,6 +157,7 @@ class FeedCollectionCell: UICollectionViewCell {
             return
         }
         self.delegate?.cell(self, didLike: viewModel.post)
+
     }
     
     //MARK: - Helpers
@@ -179,6 +182,9 @@ class FeedCollectionCell: UICollectionViewCell {
         likesLabel.text = viewModel.likes
         likeButton.setImage(viewModel.likeButtonImage, for: .normal)
         likeButton.tintColor = viewModel.likeButtonTintColor
+        profileImageView.addGestureRecognizer(UIGestureRecognizer(target:self,action: #selector(didTapUserNameButton)))
+        profileImageView.isUserInteractionEnabled = true
+        postDateLabel.text = viewModel.timestampString
     }
     
 }

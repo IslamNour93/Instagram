@@ -59,6 +59,9 @@
 		39E4D24528A8C90400A4E857 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24428A8C90400A4E857 /* NotificationCell.swift */; };
 		39E4D24728A906F100A4E857 /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24628A906F100A4E857 /* NotificationsService.swift */; };
 		39E4D24928A911AD00A4E857 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24828A911AD00A4E857 /* Notification.swift */; };
+		39F6335C28B1FE10003BC551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335B28B1FE10003BC551 /* ViewController.swift */; };
+		39F6335E28B21686003BC551 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335D28B21686003BC551 /* ResetPasswordController.swift */; };
+		39F6336028B21EB4003BC551 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335F28B21EB4003BC551 /* ResetPasswordViewModel.swift */; };
 		39FE96DD288F375100B98468 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FE96DC288F375100B98468 /* AppDelegate.swift */; };
 		39FE96DF288F375100B98468 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FE96DE288F375100B98468 /* SceneDelegate.swift */; };
 		39FE96E4288F375100B98468 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 39FE96E2288F375100B98468 /* Main.storyboard */; };
@@ -113,6 +116,9 @@
 		39E4D24428A8C90400A4E857 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		39E4D24628A906F100A4E857 /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
 		39E4D24828A911AD00A4E857 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
+		39F6335B28B1FE10003BC551 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		39F6335D28B21686003BC551 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
+		39F6335F28B21EB4003BC551 /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		39FE96D9288F375100B98468 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		39FE96DC288F375100B98468 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		39FE96DE288F375100B98468 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -177,6 +183,7 @@
 			children = (
 				39E47CD528930F8D00BEC994 /* LoginController.swift */,
 				39228ED22894151100D676FC /* RegisterController.swift */,
+				39F6335D28B21686003BC551 /* ResetPasswordController.swift */,
 			);
 			path = Authentications;
 			sourceTree = "<group>";
@@ -243,6 +250,7 @@
 			children = (
 				39228ED4289461A900D676FC /* LoginViewModel.swift */,
 				39228ED628946D1000D676FC /* RegisterViewModel.swift */,
+				39F6335F28B21EB4003BC551 /* ResetPasswordViewModel.swift */,
 				39140E5F2899C89B00B27073 /* MainTabbarViewModel.swift */,
 				3910A9D9289A37ED007E3EED /* ProfileHeaderViewModel.swift */,
 				39706E6C289B3C860092D6B6 /* SearchViewModel.swift */,
@@ -267,6 +275,7 @@
 				39CAB22E289F802C0040684E /* UploadPostController.swift */,
 				396A3D4A28A205010029903A /* CommentsController.swift */,
 				39E4D24228A8C86800A4E857 /* NotificationsController.swift */,
+				39F6335B28B1FE10003BC551 /* ViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -393,6 +402,7 @@
 				3910A9D8289A22B6007E3EED /* AuthenticationDelegateProtocol.swift in Sources */,
 				39BE022C28A3062F0096E896 /* CommentService.swift in Sources */,
 				39FE96FD288F3C1C00B98468 /* ProfileController.swift in Sources */,
+				39F6336028B21EB4003BC551 /* ResetPasswordViewModel.swift in Sources */,
 				394BA2D728908F8B0056AA96 /* Extensions.swift in Sources */,
 				39FE96FB288F3C0E00B98468 /* FeedController.swift in Sources */,
 				39CE3FF028A06B9A00DAF030 /* UploadPostViewModel.swift in Sources */,
@@ -403,6 +413,7 @@
 				39BE023028A392110096E896 /* CommentViewModel.swift in Sources */,
 				39E4D24728A906F100A4E857 /* NotificationsService.swift in Sources */,
 				39706E6F289B66BE0092D6B6 /* SearchCellViewModel.swift in Sources */,
+				39F6335E28B21686003BC551 /* ResetPasswordController.swift in Sources */,
 				39E4D24328A8C86800A4E857 /* NotificationsController.swift in Sources */,
 				39CAB231289FAA510040684E /* CustomTextView.swift in Sources */,
 				396A3D4B28A205010029903A /* CommentsController.swift in Sources */,
@@ -418,6 +429,7 @@
 				39E4D24928A911AD00A4E857 /* Notification.swift in Sources */,
 				39228ED5289461A900D676FC /* LoginViewModel.swift in Sources */,
 				39DA2A1A289845EC004A432B /* ProfileHeaderView.swift in Sources */,
+				39F6335C28B1FE10003BC551 /* ViewController.swift in Sources */,
 				39E4D24528A8C90400A4E857 /* NotificationCell.swift in Sources */,
 				39140E5C2899C37100B27073 /* UserServices.swift in Sources */,
 				39BE022A28A2DB080096E896 /* CommentInputAccessoriesView.swift in Sources */,
@@ -586,6 +598,7 @@
 				DEVELOPMENT_TEAM = S832A38562;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Instagram/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We kindly need access to your gallery to upload a post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -614,6 +627,7 @@
 				DEVELOPMENT_TEAM = S832A38562;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Instagram/Info.plist;
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "We kindly need access to your gallery to upload a post.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

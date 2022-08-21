@@ -33,7 +33,7 @@ class UploadPostViewModel{
     }
     
     func getPostForUser(uid:String,completion:@escaping([Post]?,Error?)->()){
-        PostService.fetchPostForUser(uid: uid) { posts, error in
+        PostService.fetchPostsForUser(uid: uid) { posts, error in
             if let error = error {
                 completion(nil,error)
                 return
@@ -67,6 +67,32 @@ class UploadPostViewModel{
     func checkIfUserLikedPost(post:Post,completion:@escaping (Bool)->()){
         LikeService.checkIfUserLikedPost(post: post) { didLike in
             completion(didLike)
+        }
+    }
+    
+    func getPost(postId: String,completion:@escaping(Post?) -> ()){
+        PostService.fetchPost(withPostId: postId) { post in
+            completion(post)
+        }
+    }
+    
+    func updateFeedAfterFollowing(user:User,isFollowed:Bool,completion: @escaping (Error?)->()){
+        PostService.updateFeedAfterFollowing(user: user, isFollowed: isFollowed) { error in
+            if error == nil{
+                completion(nil)
+            }else{
+            completion(error)
+            }
+        }
+    }
+    
+    func fetchFeedPosts(completion:@escaping ([Post]?)->()){
+        PostService.fetchFeedPosts { posts in
+            if let posts = posts {
+                completion(posts)
+            }else{
+                completion(nil)
+            }
         }
     }
 }

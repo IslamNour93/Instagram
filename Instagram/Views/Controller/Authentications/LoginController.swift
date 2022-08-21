@@ -51,7 +51,7 @@ class LoginController: UIViewController {
     let forgetPasswordButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Forgot your password?", secondPart: "Get help signing in.", fontSize: 16)
-        
+        button.addTarget(self, action: #selector(hadleForgetPassword), for: .touchUpInside)
         return button
     }()
     
@@ -65,6 +65,7 @@ class LoginController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureGradientLayer()
         configureUI()
         configureNotificationObservers()
         updateForm()
@@ -72,6 +73,12 @@ class LoginController: UIViewController {
     
     //MARK: - Actions
     
+    @objc func hadleForgetPassword(){
+        let resetPassController = ResetPasswordController()
+        resetPassController.delegate = self
+        resetPassController.email = emailTextField.text
+        navigationController?.pushViewController(resetPassController, animated: true)
+    }
    @objc func navigateToRegisterScreen(){
         let regView = RegisterController()
         regView.delegate = delegate
@@ -93,9 +100,9 @@ class LoginController: UIViewController {
         loginViewModel.signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("Debug: Error in log user in..:\(error.localizedDescription)")
-                self.showMessage(withTitle: "Invalid password or Email", message: "Please check your password & email and try again.")
+                self.showMessage(withTitle: "Error", message: error.localizedDescription)
             }
-            if let result = result {
+            if result != nil {
                 self.delegate?.authenticationDidComplete()
             }
         }
@@ -108,11 +115,6 @@ class LoginController: UIViewController {
         view.backgroundColor = .white
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPurple.cgColor,UIColor.systemPink.cgColor]
-        gradient.locations = [0,1]
-        view.layer.addSublayer(gradient)
-        gradient.frame = view.frame
         view.addSubview(logoImage)
         logoImage.centerX(inView: view)
         logoImage.setDimensions(height: 80, width: 120)
@@ -142,5 +144,14 @@ extension LoginController:FormProtocol{
         loginButton.setTitleColor(loginViewModel.buttonTitleColor, for: .normal)
         loginButton.backgroundColor = loginViewModel.buttonBackgroundColor
     }
+}
+
+//MARK: - ResetPasswordControllerDelegate
+
+extension LoginController:ResetPasswordControllerDelegate{
+    func controller(_ controllerDidResetPassword: ResetPasswordController) {
+        navigationController?.popViewController(animated: true)
+        showMessage(withTitle: "Reset Successfully", message: "An email has been sent to your inbox, Please check your inbox to reset your password.")
+    }    
 }
 

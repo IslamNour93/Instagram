@@ -20,6 +20,15 @@ struct PostViewModel{
         }
     }
     
+    var timestampString:String{
+        let formatter = DateComponentsFormatter()
+        formatter.allowedUnits = [.second,.minute,.hour,.day,.weekOfMonth]
+        formatter.maximumUnitCount = 1
+        formatter.unitsStyle = .abbreviated
+        let timestampString = formatter.string(from: post.timestamp.dateValue(),to: Date()) ?? ""
+        return timestampString + " ago"
+    }
+    
     var caption:String{
         return post.caption
     }

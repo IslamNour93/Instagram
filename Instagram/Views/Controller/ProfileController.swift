@@ -169,27 +169,31 @@ extension ProfileController:ProfileHeaderProtocol{
         if user.isCurrentUser{
             
         }else if user.isFollowed{
-            profileHeader.viewModel?.unfollowUser(onSuccess: {
+            profileHeader.viewModel?.unfollowUser(onSuccess: {[weak self] in
+                guard let self = self else{return}
                 self.user.isFollowed = false
                 self.getUserStats()
                 self.collectionView.reloadData()
+                self.postViewModel.updateFeedAfterFollowing(user: user, isFollowed: self.user.isFollowed) { error in
+                    
+                }
                 print("Successfully Unfollowed User...")
                 print(user.uid)
             })
             
             }else{
-            profileHeader.viewModel?.followUser {
-                
+            profileHeader.viewModel?.followUser {[weak self] in
+                guard let self = self else{return}
                 print("Successfully followed user...")
                 print(user.uid)
                 self.user.isFollowed = true
                 self.getUserStats()
                 self.collectionView.reloadData()
+                self.postViewModel.updateFeedAfterFollowing(user: user, isFollowed: self.user.isFollowed) { error in
+                    
+                }
                 NotificationService.uploadNotification(toUid: user.uid , fromUser: currentUser, type: .follow)
-            }
-                
-                
-                
+            }        
         }
     }
     

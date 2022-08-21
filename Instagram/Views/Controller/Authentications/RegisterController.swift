@@ -75,6 +75,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureGradientLayer()
         configureUI()
         configureDelegates()
         configureNotificationObservers()
@@ -128,12 +129,6 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     
     private func configureUI(){
         view.backgroundColor = .white
-        let gradient = CAGradientLayer()
-        gradient.colors = [UIColor.systemPurple.cgColor,UIColor.systemPink.cgColor]
-        gradient.locations = [0,1]
-        view.layer.addSublayer(gradient)
-        gradient.frame = view.frame
-        
         view.addSubview(selectProfilePhoto)
         selectProfilePhoto.centerX(inView: view)
         selectProfilePhoto.anchor(top:view.safeAreaLayoutGuide.topAnchor,paddingTop: 32)
