@@ -21,7 +21,12 @@ class FeedController: UICollectionViewController{
     
     var users = [User]()
     
-    var post:Post?
+    var post:Post?{
+        didSet{
+            print("Post observer is called")
+            self.collectionView.reloadData()
+        }
+    }
     
     var posts = [Post](){
         didSet{
@@ -29,7 +34,6 @@ class FeedController: UICollectionViewController{
             collectionView.reloadData()
         }
     }
-    
 
     
     //MARK: - Lifecycle
@@ -37,6 +41,13 @@ class FeedController: UICollectionViewController{
         super.viewDidLoad()
         configureUI()
         getPostsData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if post != nil{
+            checkIfUserLikePost()
+        }
     }
     
     //MARK: - Actions
@@ -49,6 +60,9 @@ class FeedController: UICollectionViewController{
     
     @objc func handleRefresher(){
         posts.removeAll()
+        if post != nil{
+        checkIfUserLikePost()
+        }
         getPostsData()
     }
     
@@ -66,6 +80,7 @@ class FeedController: UICollectionViewController{
     }
     
     private func checkIfUserIslogged(){
+        
         loginViewModel.checkIfUserIsLoggedIn {
             let vc = LoginController()
             vc.delegate = self.tabBarController as? MainTabController
@@ -77,26 +92,29 @@ class FeedController: UICollectionViewController{
     
     private func checkIfUserLikePost(){
         
+        if let post = post{
+            uploadPostViewModel.checkIfUserLikedPost(post: post) { isLiked in
+                self.post?.didLike = isLiked
+            }
+        }else{
         self.posts.forEach { post in
-            uploadPostViewModel.checkIfUserLikedPost(post: post) { didLike in
-//                guard let self = self else {return}
+            uploadPostViewModel.checkIfUserLikedPost(post: post) {[weak self] didLike in
+                guard let self = self else {return}
                 if let index = self.posts.firstIndex(where: {$0.postId == post.postId}){
                     self.posts[index].didLike = didLike
                 }
             }
         }
-        
     }
+}
     
     private func getPostsData(){
-        
         uploadPostViewModel.fetchFeedPosts {[weak self] posts in
             guard let self = self else {return}
             if let posts = posts {
                 self.posts = posts
                 self.checkIfUserLikePost()
                 self.collectionView.refreshControl?.endRefreshing()
-                self.collectionView.reloadData()
                 print("DEBUG: done refreshing")
             }
         }
@@ -160,23 +178,23 @@ extension FeedController:FeedCollectionCellDelegate{
         cell.viewModel?.post.didLike.toggle()
          if post.didLike{
              print("Did tap unlike Post")
-             uploadPostViewModel.unlikePost(post: post) {
+             uploadPostViewModel.unlikePost(post: post) { _ in
                  print("Did unlike Post")
                  cell.likeButton.setImage(UIImage(named: "like_unselected"), for: .normal)
                  cell.likeButton.tintColor = .label
                  cell.viewModel?.post.likes = post.likes-1
-//                 print(cell.viewModel?.post.likes)
+                 cell.configure()
              }
              
          }else{
              print("Did tap like Post")
-             uploadPostViewModel.likePost(post: post) {
+             uploadPostViewModel.likePost(post: post) { _ in
                  print("Did like Post")
                  cell.likeButton.tintColor = .red
                  cell.likeButton.setImage(UIImage(named: "like_selected"), for: .normal)
                  cell.viewModel?.post.likes = post.likes+1
+                 cell.configure()
                  NotificationService.uploadNotification(toUid: post.ownerUid, fromUser: user, type: .like, post: post)
-//                 print(cell.viewModel?.post.likes)
              } 
          }
         

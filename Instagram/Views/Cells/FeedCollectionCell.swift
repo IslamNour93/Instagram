@@ -95,7 +95,6 @@ class FeedCollectionCell: UICollectionViewCell {
     
     private var postDateLabel: UILabel = {
         let label = UILabel()
-        label.text = "25/12/2022"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
         return label
@@ -127,7 +126,7 @@ class FeedCollectionCell: UICollectionViewCell {
         
         addSubview(postDateLabel)
         postDateLabel.anchor(top:captionsLabel.bottomAnchor,left: leftAnchor,paddingTop: 8,paddingLeft: 8)
-        
+        configure()
     }
     
     required init?(coder: NSCoder) {
@@ -171,7 +170,7 @@ class FeedCollectionCell: UICollectionViewCell {
         stackView.anchor(top:postImageView.bottomAnchor,left: leftAnchor,paddingTop: 8, paddingLeft: 8, width: 120,height: 50)
     }
     
-    private func configure(){
+     func configure(){
         guard let viewModel = viewModel else {
             return
         }
@@ -188,3 +187,4 @@ class FeedCollectionCell: UICollectionViewCell {
     }
     
 }
+

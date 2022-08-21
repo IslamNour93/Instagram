@@ -44,22 +44,24 @@ class UploadPostViewModel{
         }
     }
     
-    func likePost(post:Post,completion:@escaping ()->()){
+    func likePost(post:Post,completion:@escaping (Error?)->()){
         LikeService.likePost(post: post) { error in
             if error == nil{
-                completion()
+                completion(nil)
             }else{
                 print("DEBUG: Error can't like post...\(String(describing: error?.localizedDescription))")
+                completion(error)
             }
         }
     }
     
-    func unlikePost(post:Post,completion:@escaping ()->()){
+    func unlikePost(post:Post,completion:@escaping (Error?)->()){
         LikeService.unlikePost(post: post) { error in
             if error == nil{
-                completion()
+                completion(nil)
             }else{
                 print("DEBUG: Error can't unlike post...\(String(describing: error?.localizedDescription))")
+                completion(error)
             }
         }
     }
