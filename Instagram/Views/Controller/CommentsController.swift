@@ -16,7 +16,7 @@ class CommentsController: UICollectionViewController {
     
     var viewModel: CommentViewModel?
     
-    var mainTabViewModel = MainTabbarViewModel()
+    var mainTabViewModel = MainTabbarViewModel()    
     
     private lazy var inputCommentTextView:CommentInputAccessoriesView = {
         let frame = CGRect(x: 0, y: 0, width: view.frame.width , height: 80)
@@ -135,7 +135,9 @@ extension CommentsController:CommentInputAccessoriesViewDelegate{
                 }
             }
         })
+        
         NotificationService.uploadNotification(toUid: post.ownerUid, fromUser: user, type: .comment, post: post)
+        
         inputView.clearCommentText()
     }
 }
@@ -152,6 +154,4 @@ extension CommentsController:CommentsCellDelegate{
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
-    
-    
 }

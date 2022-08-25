@@ -33,6 +33,7 @@ class NotificationsController: UITableViewController {
     //MARK: - Helpers
     
     private func setupTableView(){
+        navigationItem.title = "Notifications"
         tableView.register(NotificationCell.self, forCellReuseIdentifier: NotificationCell.identifier)
         tableView.refreshControl = refresher
         refresher.addTarget(self, action: #selector(handleRefresher), for: .valueChanged)

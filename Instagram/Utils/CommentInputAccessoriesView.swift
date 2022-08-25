@@ -41,6 +41,7 @@ class CommentInputAccessoriesView: UIView {
         NotificationCenter.default.addObserver(self, selector: #selector(configure), name: UITextView.textDidChangeNotification, object: nil)
         autoresizingMask = .flexibleHeight
         backgroundColor = .systemBackground
+        commentTextView.delegate = self
         
         addSubview(commentButton)
         commentButton.anchor(top:topAnchor,
@@ -100,6 +101,14 @@ class CommentInputAccessoriesView: UIView {
         print("did tap button comment")
         }
     }
-    
-    
+}
+
+extension CommentInputAccessoriesView:UITextViewDelegate{
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+            if(text == "\n") {
+                textView.resignFirstResponder()
+                return false
+            }
+            return true
+        }
 }

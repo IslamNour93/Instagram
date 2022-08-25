@@ -185,6 +185,5 @@ class FeedCollectionCell: UICollectionViewCell {
         profileImageView.isUserInteractionEnabled = true
         postDateLabel.text = viewModel.timestampString
     }
-    
 }
 

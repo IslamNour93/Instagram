@@ -51,13 +51,17 @@ class SearchCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier:String?){
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureUI()
+    }
+    
+    private func configureUI(){
+        selectionStyle = .none
         addSubview(profileImageView)
         profileImageView.anchor(top:topAnchor,left: leftAnchor,paddingTop: 6,paddingLeft: 12,width:60,height:60)
         addSubview(usernameLabel)
         usernameLabel.anchor(top:profileImageView.topAnchor,left:profileImageView.rightAnchor,right: rightAnchor,paddingTop: 8,paddingLeft: 8,paddingRight: 12,height: 20)
         addSubview(fullnameLabel)
         fullnameLabel.anchor(top:usernameLabel.bottomAnchor,left:profileImageView.rightAnchor,right:rightAnchor,paddingTop: 8,paddingLeft: 8,paddingRight: 12,height: 20)
-        
     }
     
     required init?(coder: NSCoder) {

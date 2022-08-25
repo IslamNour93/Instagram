@@ -19,6 +19,7 @@ class AuthenticationServices{
             Auth.auth().createUser(withEmail: email, password: password) { result, error in
                 if let error = error{
                     print("Debug: Failed to register User\(error.localizedDescription)")
+                    onFailure(error)
                     return
                 }
                 guard let uid = result?.user.uid else {return}

@@ -13,13 +13,21 @@ class SearchController: UIViewController{
     
     private var searchViewModel = SearchViewModel()
     private var users = [User]()
-    private var posts = [Post]()
+    private var posts = [Post](){
+        didSet{
+            self.collectionView.reloadData()
+        }
+    }
     private var filteredUsers = [User]()
     private let searchController = UISearchController(searchResultsController: nil)
     private let viewModel = UploadPostViewModel()
+    
+    private let refresher = UIRefreshControl()
+    
     private var isSearchActive:Bool{
         return searchController.isActive && !searchController.searchBar.text!.isEmpty
     }
+    
     
     private let tableView:UITableView={
         let tableView = UITableView()
@@ -36,8 +44,8 @@ class SearchController: UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        configureUi()
+        configureTableView()
+        configureCollectionView()
         getUsers()
         getPosts()
         configureSearchController()
@@ -51,26 +59,33 @@ class SearchController: UIViewController{
     }
     
     func getPosts(){
-        viewModel.getAllPosts { posts, error in
+        viewModel.getAllPosts { [weak self] posts, error in
+            guard let self = self else {return}
             if let posts = posts {
                 self.posts = posts
+                self.collectionView.refreshControl?.endRefreshing()
                 self.collectionView.reloadData()
             }
         }
     }
     
-    
     //MARK: - Helpers
-        
-    func configureUi(){
+    private func configureTableView(){
+        navigationItem.title = "Explore"
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
         view.addSubview(tableView)
         tableView.fillSuperview()
         tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
+    }
+    private func configureCollectionView(){
         
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.refreshControl = refresher
+        refresher.addTarget(self, action: #selector(handleCollectionViewRefresh), for: .valueChanged)
         view.addSubview(collectionView)
         collectionView.fillSuperview()
         collectionView.register(ProfileCell.self, forCellWithReuseIdentifier: ProfileCell.identifier)
@@ -80,7 +95,6 @@ class SearchController: UIViewController{
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
-//        searchController.hidesNavigationBarDuringPresentation = false
         if #available(iOS 11.0, *) {
                 navigationItem.searchController = searchController
                 navigationItem.hidesSearchBarWhenScrolling = false
@@ -113,6 +127,13 @@ class SearchController: UIViewController{
         let section = NSCollectionLayoutSection(group: group)
         //Return
         return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    //MARK: - Actions
+    
+    @objc func handleCollectionViewRefresh(){
+        posts.removeAll()
+        getPosts()
     }
 }
 
@@ -185,6 +206,7 @@ extension SearchController:UICollectionViewDelegate{
 //MARK: - UISearchBarDelegate
 
 extension SearchController:UISearchBarDelegate{
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         tableView.isHidden = false
         searchBar.showsCancelButton = true
@@ -197,5 +219,9 @@ extension SearchController:UISearchBarDelegate{
         searchBar.text = nil
         tableView.isHidden = true
         collectionView.isHidden = false
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }

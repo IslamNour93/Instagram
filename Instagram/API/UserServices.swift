@@ -93,5 +93,14 @@ class UserServices{
             }
         }
     }
+    
+    func fetchUserFollowers(completion:@escaping ([User]?)->()){
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+        Constants.collection_followers.document(uid).collection("user-followers").getDocuments { snapshot, error in
+            
+        }
+    }
 }
 

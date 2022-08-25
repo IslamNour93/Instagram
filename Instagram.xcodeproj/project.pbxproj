@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3907DEEA28B71D070089FE54 /* ChatsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3907DEE928B71D070089FE54 /* ChatsController.swift */; };
+		3907DEED28B72B270089FE54 /* MessageKit in Frameworks */ = {isa = PBXBuildFile; productRef = 3907DEEC28B72B270089FE54 /* MessageKit */; };
 		3910A9D8289A22B6007E3EED /* AuthenticationDelegateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3910A9D7289A22B6007E3EED /* AuthenticationDelegateProtocol.swift */; };
 		3910A9DA289A37ED007E3EED /* ProfileHeaderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3910A9D9289A37ED007E3EED /* ProfileHeaderViewModel.swift */; };
 		39140E5A2899BE8F00B27073 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39140E592899BE8F00B27073 /* User.swift */; };
@@ -59,7 +61,6 @@
 		39E4D24528A8C90400A4E857 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24428A8C90400A4E857 /* NotificationCell.swift */; };
 		39E4D24728A906F100A4E857 /* NotificationsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24628A906F100A4E857 /* NotificationsService.swift */; };
 		39E4D24928A911AD00A4E857 /* Notification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39E4D24828A911AD00A4E857 /* Notification.swift */; };
-		39F6335C28B1FE10003BC551 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335B28B1FE10003BC551 /* ViewController.swift */; };
 		39F6335E28B21686003BC551 /* ResetPasswordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335D28B21686003BC551 /* ResetPasswordController.swift */; };
 		39F6336028B21EB4003BC551 /* ResetPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F6335F28B21EB4003BC551 /* ResetPasswordViewModel.swift */; };
 		39FE96DD288F375100B98468 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FE96DC288F375100B98468 /* AppDelegate.swift */; };
@@ -75,6 +76,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3907DEE928B71D070089FE54 /* ChatsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsController.swift; sourceTree = "<group>"; };
 		3910A9D7289A22B6007E3EED /* AuthenticationDelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationDelegateProtocol.swift; sourceTree = "<group>"; };
 		3910A9D9289A37ED007E3EED /* ProfileHeaderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderViewModel.swift; sourceTree = "<group>"; };
 		39140E592899BE8F00B27073 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -116,7 +118,6 @@
 		39E4D24428A8C90400A4E857 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
 		39E4D24628A906F100A4E857 /* NotificationsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsService.swift; sourceTree = "<group>"; };
 		39E4D24828A911AD00A4E857 /* Notification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notification.swift; sourceTree = "<group>"; };
-		39F6335B28B1FE10003BC551 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		39F6335D28B21686003BC551 /* ResetPasswordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordController.swift; sourceTree = "<group>"; };
 		39F6335F28B21EB4003BC551 /* ResetPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResetPasswordViewModel.swift; sourceTree = "<group>"; };
 		39FE96D9288F375100B98468 /* Instagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Instagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,6 +142,7 @@
 				393A80F32895E599001FE0A0 /* YPImagePicker in Frameworks */,
 				393A80E52895E268001FE0A0 /* FirebaseMessaging in Frameworks */,
 				393A80E32895E268001FE0A0 /* FirebaseFirestoreSwift in Frameworks */,
+				3907DEED28B72B270089FE54 /* MessageKit in Frameworks */,
 				393A80DF2895E268001FE0A0 /* FirebaseDatabaseSwift in Frameworks */,
 				393A80E12895E268001FE0A0 /* FirebaseFirestore in Frameworks */,
 				393A80F02895E3DB001FE0A0 /* JGProgressHUD in Frameworks */,
@@ -275,7 +277,7 @@
 				39CAB22E289F802C0040684E /* UploadPostController.swift */,
 				396A3D4A28A205010029903A /* CommentsController.swift */,
 				39E4D24228A8C86800A4E857 /* NotificationsController.swift */,
-				39F6335B28B1FE10003BC551 /* ViewController.swift */,
+				3907DEE928B71D070089FE54 /* ChatsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -333,6 +335,7 @@
 				393A80EC2895E368001FE0A0 /* SDWebImage */,
 				393A80EF2895E3DB001FE0A0 /* JGProgressHUD */,
 				393A80F22895E599001FE0A0 /* YPImagePicker */,
+				3907DEEC28B72B270089FE54 /* MessageKit */,
 			);
 			productName = Instagram;
 			productReference = 39FE96D9288F375100B98468 /* Instagram.app */;
@@ -368,6 +371,7 @@
 				393A80EB2895E368001FE0A0 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				393A80EE2895E3DB001FE0A0 /* XCRemoteSwiftPackageReference "JGProgressHUD" */,
 				393A80F12895E598001FE0A0 /* XCRemoteSwiftPackageReference "YPImagePicker" */,
+				3907DEEB28B72B260089FE54 /* XCRemoteSwiftPackageReference "MessageKit" */,
 			);
 			productRefGroup = 39FE96DA288F375100B98468 /* Products */;
 			projectDirPath = "";
@@ -416,6 +420,7 @@
 				39F6335E28B21686003BC551 /* ResetPasswordController.swift in Sources */,
 				39E4D24328A8C86800A4E857 /* NotificationsController.swift in Sources */,
 				39CAB231289FAA510040684E /* CustomTextView.swift in Sources */,
+				3907DEEA28B71D070089FE54 /* ChatsController.swift in Sources */,
 				396A3D4B28A205010029903A /* CommentsController.swift in Sources */,
 				39FE96FF288F3C4700B98468 /* SearchController.swift in Sources */,
 				39FE9701288F3D7300B98468 /* ImageSelectorController.swift in Sources */,
@@ -429,7 +434,6 @@
 				39E4D24928A911AD00A4E857 /* Notification.swift in Sources */,
 				39228ED5289461A900D676FC /* LoginViewModel.swift in Sources */,
 				39DA2A1A289845EC004A432B /* ProfileHeaderView.swift in Sources */,
-				39F6335C28B1FE10003BC551 /* ViewController.swift in Sources */,
 				39E4D24528A8C90400A4E857 /* NotificationCell.swift in Sources */,
 				39140E5C2899C37100B27073 /* UserServices.swift in Sources */,
 				39BE022A28A2DB080096E896 /* CommentInputAccessoriesView.swift in Sources */,
@@ -670,6 +674,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3907DEEB28B72B260089FE54 /* XCRemoteSwiftPackageReference "MessageKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MessageKit/MessageKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		393A80D92895E268001FE0A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -713,6 +725,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3907DEEC28B72B270089FE54 /* MessageKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3907DEEB28B72B260089FE54 /* XCRemoteSwiftPackageReference "MessageKit" */;
+			productName = MessageKit;
+		};
 		393A80DA2895E268001FE0A0 /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 393A80D92895E268001FE0A0 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

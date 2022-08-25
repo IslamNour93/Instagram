@@ -28,7 +28,7 @@ class RegisterViewModel:NSObject,AuthenticationProtocol{
         credential = Credentials()
     }
     
-    func signup(credential:Credentials,onSucces:@escaping ()->(),onFailure: @escaping(String)->()){
+    func signup(credential:Credentials,onSucces:@escaping ()->(),onFailure: @escaping(Error?)->()){
         AuthenticationServices.registerUser(withCredential: credential) { data in
             DispatchQueue.main.async {
                 onSucces()
@@ -37,7 +37,7 @@ class RegisterViewModel:NSObject,AuthenticationProtocol{
         } onFailure: { error in
             guard let error = error else{return}
             print(error.localizedDescription)
-            onFailure("Failed to register a user")
+            onFailure(error)
         }
 
     }

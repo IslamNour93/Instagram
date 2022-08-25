@@ -82,12 +82,12 @@ class NotificationCell: UITableViewCell {
         addSubview(profileImageView)
         profileImageView.centerY(inView: self)
         profileImageView.anchor(left: leftAnchor,paddingLeft: 12,width:60,height:60)
-        
+        contentView.addSubview(postImageView)
         contentView.addSubview(followButton)
         followButton.centerY(inView: self)
         followButton.anchor(right:rightAnchor,paddingRight: 8,width: 88,height: 30)
         
-        contentView.addSubview(postImageView)
+        
         postImageView.centerY(inView: self)
         postImageView.anchor(right:rightAnchor,paddingRight: 8,width: 70,height: 70)
         
@@ -96,7 +96,7 @@ class NotificationCell: UITableViewCell {
         notificationLabel.centerY(inView: profileImageView,
                                   leftAnchor: profileImageView.rightAnchor,
                                   paddingLeft: 8)
-        notificationLabel.anchor(right:postImageView.leftAnchor,
+        notificationLabel.anchor(right:followButton.leftAnchor,
                                  paddingRight: 4)
     }
     

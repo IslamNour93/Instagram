@@ -66,9 +66,15 @@ class FeedController: UICollectionViewController{
         getPostsData()
     }
     
+    @objc func hadnleMessageButton(){
+        let chatsVC = ChatsController()
+        navigationController?.pushViewController(chatsVC, animated: true)
+    }
+    
     //MARK: - Helpers
     
     private func configureUI(){
+        navigationItem.title = "Feed"
         collectionView.register(FeedCollectionCell.self, forCellWithReuseIdentifier: FeedCollectionCell.identifier)
         collectionView.showsVerticalScrollIndicator = false
         let refresher = UIRefreshControl()
@@ -76,6 +82,7 @@ class FeedController: UICollectionViewController{
         collectionView.refreshControl = refresher
         if post == nil{
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image:UIImage(named: "send2"), style: .plain, target: self, action: #selector(hadnleMessageButton))
         }
     }
     

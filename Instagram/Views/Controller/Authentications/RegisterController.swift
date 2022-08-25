@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RegisterController: UIViewController, UITextFieldDelegate {
+class RegisterController: UIViewController {
 
     //MARK: - Properties
     
@@ -15,7 +15,8 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     var loginViewModel = LoginViewModel()
     var profileImage:UIImage?
     weak var delegate: AuthenticationDelegate?
-    let selectProfilePhoto: UIButton = {
+    
+    private let selectProfilePhoto: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(named: "plus_photo"), for: .normal)
         button.setHeight(120)
@@ -24,36 +25,36 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    let emailTextField:UITextField = {
+    private let emailTextField:UITextField = {
         let tf = UITextField()
         tf.customTextField(placeholder: " Email", height: 50)
         tf.keyboardType = .emailAddress
-        
+
         return tf
     }()
     
-    let passwordTextField: UITextField = {
+    private let passwordTextField: UITextField = {
         let tf = UITextField()
         tf.customTextField(placeholder: " Password", height: 50)
         tf.isSecureTextEntry = true
         return tf
     }()
     
-    let fullNameTextField:UITextField = {
+    private let fullNameTextField:UITextField = {
         let tf = UITextField()
         tf.customTextField(placeholder: " Fullname", height: 50)
         
         return tf
     }()
     
-    let usernameTextField:UITextField = {
+    private let usernameTextField:UITextField = {
         let tf = UITextField()
         tf.customTextField(placeholder: " Username", height: 50)
         
         return tf
     }()
     
-    let signupButton: UIButton = {
+    private let signupButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Sign up", for: .normal)
         button.setTitleColor(.white, for: .normal)
@@ -65,7 +66,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    let alreadyHaveAccoutButton: UIButton = {
+    private let alreadyHaveAccoutButton: UIButton = {
         let button = UIButton(type: .system)
         button.attributedTitle(firstPart: "Already have an account?", secondPart: "Sign in", fontSize: 16)
         button.addTarget(self, action: #selector(navigteToLogin), for: .touchUpInside)
@@ -80,6 +81,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         configureDelegates()
         configureNotificationObservers()
         updateForm()
+        
     }
 
     //MARK: - Actions
@@ -107,17 +109,25 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     
     @objc func handleSignUserIn(){
         let user = Credentials(email: emailTextField.text, password: passwordTextField.text, fullname: fullNameTextField.text, username: usernameTextField.text?.lowercased(), profileImage: profileImage)
-        
+        configureSelectedPhotoState()
+        if profileImage != nil{
+            showLoader(true)
+        }
         registerViewModel.signup(credential: user) {
             print("Successfully registered a new user")
             guard let email = user.email, let password = user.password else {return}
             self.loginViewModel.signIn(withEmail: email, password: password) { result, error in
                 DispatchQueue.main.async {
+                    self.showLoader(false)
                     self.delegate?.authenticationDidComplete()
                 }
             }
-        } onFailure: { error in
-            print(error)
+        } onFailure: { [weak self]error in
+            guard let self = self else {return}
+            if let error = error{
+                self.showLoader(false)
+                self.showMessage(withTitle: "Error", message: error.localizedDescription)
+            }
         }
     }
     
@@ -128,7 +138,6 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     //MARK: - Helpers
     
     private func configureUI(){
-        view.backgroundColor = .white
         view.addSubview(selectProfilePhoto)
         selectProfilePhoto.centerX(inView: view)
         selectProfilePhoto.anchor(top:view.safeAreaLayoutGuide.topAnchor,paddingTop: 32)
@@ -150,6 +159,11 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         passwordTextField.delegate = self
     }
     
+    private func configureSelectedPhotoState(){
+        if profileImage == nil{
+            showMessage(withTitle: "Error", message: "You should select a profile picture before you register.")
+        }
+    }
 }
 
     //MARK: - AdaptFormProtocol
@@ -174,14 +188,24 @@ extension RegisterController:UIImagePickerControllerDelegate,UINavigationControl
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let selectedPhoto = info[.editedImage] as? UIImage else{return}
         profileImage = selectedPhoto
-        if  profileImage == nil {
-            profileImage = UIImage(named: "person")
-        }
         selectProfilePhoto.layer.cornerRadius = selectProfilePhoto.frame.width / 2
         selectProfilePhoto.layer.masksToBounds = true
-        selectProfilePhoto.layer.borderColor = UIColor.black.cgColor
-        selectProfilePhoto.layer.borderWidth = 2
+        selectProfilePhoto.layer.borderColor = UIColor.systemPurple.cgColor
+        selectProfilePhoto.layer.borderWidth = 1
         selectProfilePhoto.setImage(selectedPhoto.withRenderingMode(.alwaysOriginal), for: .normal)
         self.dismiss(animated: false)
+    }
+}
+
+//MARK: - UITextFieldDelegate
+extension RegisterController:UITextFieldDelegate{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
 }

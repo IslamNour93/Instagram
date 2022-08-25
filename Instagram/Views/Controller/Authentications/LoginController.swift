@@ -96,13 +96,15 @@ class LoginController: UIViewController {
     
     @objc func handleLogin(){
         guard let email = emailTextField.text, let password = passwordTextField.text else {return}
-        
+        showLoader(true)
         loginViewModel.signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("Debug: Error in log user in..:\(error.localizedDescription)")
+                self.showLoader(false)
                 self.showMessage(withTitle: "Error", message: error.localizedDescription)
             }
             if result != nil {
+                self.showLoader(false)
                 self.delegate?.authenticationDidComplete()
             }
         }
@@ -153,5 +155,17 @@ extension LoginController:ResetPasswordControllerDelegate{
         navigationController?.popViewController(animated: true)
         showMessage(withTitle: "Reset Successfully", message: "An email has been sent to your inbox, Please check your inbox to reset your password.")
     }    
+}
+
+extension LoginController{
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            textField.resignFirstResponder()
+            return true
+        }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
 }
 

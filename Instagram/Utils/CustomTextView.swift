@@ -31,13 +31,12 @@ class CustomTextView: UITextView {
             }
         }
     }
+    
     override init(frame: CGRect, textContainer: NSTextContainer?){
         super.init(frame: frame, textContainer: textContainer)
         
         addSubview(placeholder)
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: UITextView.textDidChangeNotification, object: nil)
-        
-        
     }
     
     required init?(coder: NSCoder) {
@@ -51,3 +50,5 @@ class CustomTextView: UITextView {
         placeholder.isHidden = !text.isEmpty
     }
 }
+
+
