@@ -45,6 +45,7 @@ class FeedController: UICollectionViewController{
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        tabBarController?.tabBar.isHidden = false
         if post != nil{
             checkIfUserLikePost()
         }
@@ -68,7 +69,7 @@ class FeedController: UICollectionViewController{
     
     @objc func hadnleMessageButton(){
         let chatsVC = ChatsController()
-        navigationController?.pushViewController(chatsVC, animated: true)
+        navigationController?.pushViewController(chatsVC, animated: false)
     }
     
     //MARK: - Helpers
@@ -167,6 +168,7 @@ extension FeedController:FeedCollectionCellDelegate{
         mainTabbarViewModel.getUser(withUid: userUid) { user, error in
             if let user = user {
                 let vc = ProfileController(user: user)
+                vc.navigationItem.largeTitleDisplayMode = .never
                 self.navigationController?.pushViewController(vc, animated: true)
             }
         }
@@ -174,6 +176,7 @@ extension FeedController:FeedCollectionCellDelegate{
     
     func cell(_ cell: FeedCollectionCell, wantsToShowCommentsFor post: Post) {
         let vc = CommentsController(post: post)
+        vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
     

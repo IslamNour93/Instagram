@@ -122,7 +122,7 @@ class RegisterController: UIViewController {
                     self.delegate?.authenticationDidComplete()
                 }
             }
-        } onFailure: { [weak self]error in
+        } onFailure: { [weak self] error in
             guard let self = self else {return}
             if let error = error{
                 self.showLoader(false)

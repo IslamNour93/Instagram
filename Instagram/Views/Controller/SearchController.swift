@@ -54,7 +54,10 @@ class SearchController: UIViewController{
     //MARK: - FetchingData
     
     func getUsers(){
-        self.users = searchViewModel.users
+        searchViewModel.getAllUsers {[weak self] users in
+            guard let users = users else {return}
+            self?.users = users
+        }
         self.tableView.reloadData()
     }
     
@@ -72,6 +75,7 @@ class SearchController: UIViewController{
     //MARK: - Helpers
     private func configureTableView(){
         navigationItem.title = "Explore"
+        navigationController?.navigationBar.prefersLargeTitles = true
         tableView.dataSource = self
         tableView.delegate = self
         tableView.showsVerticalScrollIndicator = false
@@ -103,6 +107,7 @@ class SearchController: UIViewController{
             }
         definesPresentationContext = false
         searchController.searchBar.placeholder = "Search"
+        
         
     }
     

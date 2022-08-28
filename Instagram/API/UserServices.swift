@@ -98,8 +98,26 @@ class UserServices{
         guard let uid = Auth.auth().currentUser?.uid else {
             return
         }
-        Constants.collection_followers.document(uid).collection("user-followers").getDocuments { snapshot, error in
-            
+        
+        var users = [User]()
+        Constants.collection_following.document(uid).collection("user-following").getDocuments { snapshot, error in
+            guard let documents = snapshot?.documents else {
+                return
+            }
+            documents.forEach {[weak self] document in
+                self?.fetchUser(withUid: document.documentID) { user, error in
+                    guard let user = user else {
+                        return
+                    }
+                    users.append(user)
+                    completion(users)
+                    
+                    if let error = error {
+                        print("DEBUG: Error in fetching followers:\(error)")
+                        completion(nil)
+                    }
+                }
+            }
         }
     }
 }

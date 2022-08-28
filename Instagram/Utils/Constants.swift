@@ -15,6 +15,7 @@ class Constants {
     static let collection_following = Firestore.firestore().collection("following")
     static let collection_posts = Firestore.firestore().collection("posts")
     static let collection_notifications = Firestore.firestore().collection("notifications")
+    static let collection_conversations = Firestore.firestore().collection("conversations")
 }
 
     

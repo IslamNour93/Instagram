@@ -7,17 +7,12 @@
 
 import Foundation
 
-class SearchViewModel{
+class SearchViewModel:NSObject{
     
-    var users = [User]()
-    
-    init(){
-        
-        self.getAllUsers()
-    }
-    func getAllUsers(){
+   
+    func getAllUsers(completion:@escaping([User]?)->()){
         UserServices.shared.fetchAllUsers { users in
-            self.users = users
+            completion(users)
         }
     }
 }

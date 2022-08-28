@@ -20,6 +20,12 @@ class SearchCell: UITableViewCell {
         }
     }
     
+    var chatsViewModel:ChatsViewModel?{
+        didSet{
+            configureChatsCell()
+        }
+    }
+    
     private let profileImageView:UIImageView = {
     let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -75,5 +81,14 @@ class SearchCell: UITableViewCell {
         fullnameLabel.text = viewModel.fullname
         usernameLabel.text = viewModel.username
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+    }
+    
+    private func configureChatsCell(){
+        guard let chatsViewModel = chatsViewModel else {
+            return
+        }
+        fullnameLabel.text = chatsViewModel.fullname
+        usernameLabel.text = chatsViewModel.username
+        profileImageView.sd_setImage(with: chatsViewModel.profileImageUrl)
     }
 }

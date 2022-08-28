@@ -38,14 +38,15 @@ class MainTabController: UITabBarController{
     func fetchUser(){
         
         guard let uid = Auth.auth().currentUser?.uid else {return}
-        mainTabbarViewModel.getUser(withUid: uid) { fetchedUser, error in
+        mainTabbarViewModel.getUser(withUid: uid) { [weak self] fetchedUser, error in
             if let error = error {
                 print("Debug: Error Can't fetch User Data...\(error.localizedDescription)")
             }
             guard let fetchedUser = fetchedUser else {
                 return
             }
-            self.user = fetchedUser
+            self?.user = fetchedUser
+            UserDefaults.standard.set(self?.user?.uid, forKey: "currentUid")
         }
     }
     
