@@ -20,7 +20,13 @@ class SearchCell: UITableViewCell {
         }
     }
     
-    var chatsViewModel:ChatsViewModel?{
+    var newConversationViewModel:NewConversationViewModel?{
+        didSet{
+            configureNewConversationCell()
+        }
+    }
+    
+    var chatsViewModel: ChatsViewModel?{
         didSet{
             configureChatsCell()
         }
@@ -81,6 +87,15 @@ class SearchCell: UITableViewCell {
         fullnameLabel.text = viewModel.fullname
         usernameLabel.text = viewModel.username
         profileImageView.sd_setImage(with: viewModel.profileImageUrl)
+    }
+    
+    private func configureNewConversationCell(){
+        guard let newConversationViewModel = newConversationViewModel else {
+            return
+        }
+        fullnameLabel.text = newConversationViewModel.fullname
+        usernameLabel.text = newConversationViewModel.username
+        profileImageView.sd_setImage(with: newConversationViewModel.profileImageUrl)
     }
     
     private func configureChatsCell(){

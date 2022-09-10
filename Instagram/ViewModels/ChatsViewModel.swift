@@ -8,21 +8,21 @@
 import Foundation
 
 class ChatsViewModel:NSObject{
-    let user:User
+    let conversation:Conversation
     
     var fullname:String{
-        return user.fullname
+        return conversation.latestMessage.messageContent
     }
     
     var username:String{
-        return user.username
+        return conversation.username
     }
     
     var profileImageUrl:URL?{
-        return URL(string: user.profileImageUrl)
+        return URL(string: conversation.profileImageUrl)
     }
     
-    init(user:User){
-        self.user = user
+    init(conversation:Conversation){
+        self.conversation = conversation
     }
 }

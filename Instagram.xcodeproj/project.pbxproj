@@ -52,6 +52,8 @@
 		39BE022C28A3062F0096E896 /* CommentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022B28A3062F0096E896 /* CommentService.swift */; };
 		39BE022E28A38B770096E896 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022D28A38B770096E896 /* Comment.swift */; };
 		39BE023028A392110096E896 /* CommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39BE022F28A392110096E896 /* CommentViewModel.swift */; };
+		39C8493128BCD0D70006CC8D /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C8493028BCD0D70006CC8D /* Conversation.swift */; };
+		39C8493328BD1FB60006CC8D /* NewConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39C8493228BD1FB60006CC8D /* NewConversationViewModel.swift */; };
 		39CAB22F289F802C0040684E /* UploadPostController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CAB22E289F802C0040684E /* UploadPostController.swift */; };
 		39CAB231289FAA510040684E /* CustomTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CAB230289FAA510040684E /* CustomTextView.swift */; };
 		39CE3FEE28A041BC00DAF030 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CE3FED28A041BC00DAF030 /* PostService.swift */; };
@@ -115,6 +117,8 @@
 		39BE022B28A3062F0096E896 /* CommentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentService.swift; sourceTree = "<group>"; };
 		39BE022D28A38B770096E896 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		39BE022F28A392110096E896 /* CommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentViewModel.swift; sourceTree = "<group>"; };
+		39C8493028BCD0D70006CC8D /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
+		39C8493228BD1FB60006CC8D /* NewConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewConversationViewModel.swift; sourceTree = "<group>"; };
 		39CAB22E289F802C0040684E /* UploadPostController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadPostController.swift; sourceTree = "<group>"; };
 		39CAB230289FAA510040684E /* CustomTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextView.swift; sourceTree = "<group>"; };
 		39CE3FED28A041BC00DAF030 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
@@ -248,6 +252,7 @@
 				39E4D24828A911AD00A4E857 /* Notification.swift */,
 				3949EFBC28B7AE3B00392D8A /* Message.swift */,
 				3949EFBE28B7AE6800392D8A /* MessageSender.swift */,
+				39C8493028BCD0D70006CC8D /* Conversation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 				39BE022F28A392110096E896 /* CommentViewModel.swift */,
 				39B8A8ED28AADAB10049280C /* NotificationViewModel.swift */,
 				3949EFB828B79A5000392D8A /* ChatsViewModel.swift */,
+				39C8493228BD1FB60006CC8D /* NewConversationViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -425,6 +431,7 @@
 				3910A9D8289A22B6007E3EED /* AuthenticationDelegateProtocol.swift in Sources */,
 				39BE022C28A3062F0096E896 /* CommentService.swift in Sources */,
 				39FE96FD288F3C1C00B98468 /* ProfileController.swift in Sources */,
+				39C8493328BD1FB60006CC8D /* NewConversationViewModel.swift in Sources */,
 				39F6336028B21EB4003BC551 /* ResetPasswordViewModel.swift in Sources */,
 				394BA2D728908F8B0056AA96 /* Extensions.swift in Sources */,
 				39FE96FB288F3C0E00B98468 /* FeedController.swift in Sources */,
@@ -474,6 +481,7 @@
 				39FE96F7288F3A9B00B98468 /* MainTabController.swift in Sources */,
 				39FE96DF288F375100B98468 /* SceneDelegate.swift in Sources */,
 				39140E5A2899BE8F00B27073 /* User.swift in Sources */,
+				39C8493128BCD0D70006CC8D /* Conversation.swift in Sources */,
 				396A3D4D28A206660029903A /* CommentsCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

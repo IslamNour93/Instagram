@@ -16,9 +16,9 @@ class NewConversationController: UIViewController {
     private var filteredUsers = [User]()
     private var hasFetched = false
     private var viewModel = SearchViewModel()
-    private var chatsViewModel: ChatsViewModel?
-    var completion: ((User)->())?
-    
+    private var newConversationViewModel: NewConversationViewModel?
+//    var completion: ((User)->())?
+    var completion: ((String)->())?
     private let tableView: UITableView={
         let tableView = UITableView()
         tableView.register(SearchCell.self, forCellReuseIdentifier: SearchCell.identifier)
@@ -77,8 +77,12 @@ extension NewConversationController:UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: SearchCell.identifier, for: indexPath) as! SearchCell
-        cell.chatsViewModel = ChatsViewModel(user: filteredUsers[indexPath.row])
+        cell.newConversationViewModel = NewConversationViewModel(user: filteredUsers[indexPath.row])
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return view.frame.height*0.1
     }
 }
 
@@ -90,7 +94,7 @@ extension NewConversationController:UITableViewDelegate{
         let user = filteredUsers[indexPath.row]
         
         dismiss(animated: false) {[weak self] in
-            self?.completion?(user)
+            self?.completion?(user.uid)
         }
     }
 }

@@ -47,6 +47,8 @@ class MainTabController: UITabBarController{
             }
             self?.user = fetchedUser
             UserDefaults.standard.set(self?.user?.uid, forKey: "currentUid")
+            UserDefaults.standard.set(self?.user?.username, forKey: "currentUserName")
+            UserDefaults.standard.set(self?.user?.profileImageUrl, forKey: "currentUserProfileImage")
         }
     }
     
