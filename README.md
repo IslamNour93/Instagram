@@ -21,5 +21,6 @@ Simple clone from Instagram app for learning purposes only.
 
 # Upload a post
 
-#![Simulator Screen Shot - iPhone 12 Pro Max - 2022-08-22 at 16 23 00](https://user-images.githubusercontent.com/99802390/200987195-5aa5091b-3908-4832-9a36-e2e15d32f203.png)
 ![Simulator Screen Shot - iPhone 12 Pro Max - 2022-08-22 at 16 22 57](https://user-images.githubusercontent.com/99802390/200987169-996b3996-93c8-4c33-ab34-73b6d8ed6b14.png)
+![Simulator Screen Shot - iPhone 12 Pro Max - 2022-08-22 at 16 23 00](https://user-images.githubusercontent.com/99802390/200987195-5aa5091b-3908-4832-9a36-e2e15d32f203.png)
+
