@@ -2,8 +2,7 @@
 Simple clone from Instagram app for learning purposes only.
 
 # Register
-![Simulator Screen Shot - iPhone 12 Pro Max - 2022-08-28 at 18 53 01](https://user-images.githubusercontent.com/99802390/200986349-7296a74c-394e-42c1-a0e3-0a7d3de10f13.png)
-
+＜img src="https://user-images.githubusercontent.com/99802390/200986349-7296a74c-394e-42c1-a0e3-0a7d3de10f13.png" width="300" height="600"＞
 # Login 
 ![Simulator Screen Shot - iPhone 12 Pro Max - 2022-08-28 at 18 52 57](https://user-images.githubusercontent.com/99802390/200985566-9e8afe68-5d89-4a37-9c3a-644be1cf8d48.png)
 
