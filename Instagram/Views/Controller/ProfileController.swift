@@ -85,6 +85,7 @@ class ProfileController: UICollectionViewController{
 //MARK: - Helpers
     
     private func configureUI(){
+        navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.title = user.username
     }
     
